@@ -393,7 +393,14 @@ pre-commit run -a
 
 ## ❤️  Contributions
 
-Have a question? Found a bug? Missing a specific feature? Have an idea for improving documentation? Feel free to file a new issue, discussion or PR with respective title and description. If you already found a solution to your problem, don't hesitate to share it. Suggestions for new best practices are always welcome!
+Have a question? Found a bug? Missing a specific feature? Feel free to file a new issue, discussion or PR with respective title and description.
+
+Before making an issue, please verify that:
+
+- The problem still exists on the current `main` branch.
+- Your python dependencies are updated to recent versions.
+
+Suggestions for improvements are always welcome!
 
 <br>
 
