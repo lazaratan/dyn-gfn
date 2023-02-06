@@ -6,11 +6,11 @@ class MLPFlow(nn.Module):
     """Simple MLP architecture for modelling the probabilities in a GFlowNet.
 
     A Flow function has between 1 and 3 heads: forward_log_prob, backward_log_pro, misc. Forward
-    parameterizes a distribution over possible forward actions. Backward parameterizes a
+    parametrizes a distribution over possible forward actions. Backward parametrizes a
     distribution over possible backwards actions. this can be replaced with a uniform backwards
     strategy with the `uniform_backwards` flag. Misc is used by the detailed balance loss to
     parameterize the flow. The MLP first transforms the state to a common representation then
-    applys up to three small heads to parameterize the flow.
+    applies up to three small heads to parameterize the flow.
     """
 
     def __init__(
@@ -64,7 +64,7 @@ class MLPFlow(nn.Module):
         # compute forward probabilities
         action_log_prob = self.forward_prob(representation).reshape(x.shape[0], -1)
 
-        # set pooling by averaging across row / col represenations (TODO:
+        # set pooling by averaging across row / col representations (TODO:
         # attention / Transformer would be better)
         stop_log_prob = self.stop(representation)
 
@@ -82,11 +82,11 @@ class LinearTransformerFlow(nn.Module):
     """Linear Transformer architecture for modelling the probabilities in a GFlowNet.
 
     A Flow function has between 1 and 3 heads: forward_log_prob, backward_log_pro, misc. Forward
-    parameterizes a distribution over possible forward actions. Backward parameterizes a
+    parametrizes a distribution over possible forward actions. Backward parametrizes a
     distribution over possible backwards actions. this can be replaced with a uniform backwards
     strategy with the `uniform_backwards` flag. Misc is used by the detailed balance loss to
     parameterize the flow. The Linear Transformer first transforms the state to a common
-    representation then applys up to three small heads to parameterize the flow. The Transformer
+    representation then applies up to three small heads to parameterize the flow. The Transformer
     architecture is invariant to the order of the inputs, i.e. since G is represented as a set of
     edges.
     """
@@ -198,7 +198,7 @@ class LinearTransformerFlow(nn.Module):
         action_log_prob = self.forward_prob(representation)
         action_log_prob = self.forward_linear(action_log_prob).reshape(x.shape[0], -1)
 
-        # set pooling by averaging across row / col represenations (TODO:
+        # set pooling by averaging across row / col representations (TODO:
         # attention / Transformer would be better)
         stop_log_prob = self.stop(representation)
         stop_log_prob = torch.mean(stop_log_prob, dim=1)

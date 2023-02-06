@@ -209,7 +209,7 @@ class DeepEnsDibsLayer(nn.Module):
         Current bugs linear is not correct for x, g
         Don't want bias
     Deep Ensemble for distribution over function space.
-        - incorperating DiBS framework for distributions over
+        - incorporating DiBS framework for distributions over
         graphs + functions (v.s. graphs + parameters)
     """
 
@@ -227,7 +227,7 @@ class DeepEnsDibsLayer(nn.Module):
 
         self.weight = torch.empty((self.n_outputs, self.n_inputs), requires_grad=False)
 
-        # define netowrk biases
+        # define network biases
         if bias:
             self.bias = Parameter(torch.empty(self.n_outputs))
 

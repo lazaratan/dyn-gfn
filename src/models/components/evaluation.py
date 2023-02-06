@@ -183,7 +183,7 @@ def compare_graph_distribution(true_graph, estimated_graphs):
             entropy_admissible += p * np.log2(p)
     kl_unif = np.log2(len(admissible_count)) - entropy_admissible
 
-    # compute proportion of admisible graphs
+    # compute proportion of admissible graphs
     admissible_proportion = [
         float(x) / float(sum(sample_count.values()))
         for x in list(admissible_count.values())
@@ -208,7 +208,7 @@ def compute_graphs_bayesian_diversity(graphs):
     Output:
         - diversity metric: node-wise variance of predicted graphs
         normalized by node-wise varaince of graph generated with
-        Bernoulli random varaible.
+        Bernoulli random variable.
     """
     ber_graphs = np.random.binomial(1, 0.5, size=graphs.shape)
     node_wise_var = np.var(graphs, axis=0)

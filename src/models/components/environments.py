@@ -170,7 +170,7 @@ class DenseMultiGraph(GFlowNetEnv):
             # multiple edge types. The simplest solution that I could
             # think of is have a simple index array that is exactly the
             # same shape as the state which we can use for np.where().
-            # Using this approach, each state element is uniquely assoicated
+            # Using this approach, each state element is uniquely associated
             # with a single action.
             self.state[np.where(self._action_lookup == int(action))] = 1
         return self.state, self.done
@@ -322,7 +322,7 @@ class GraphFwdBckEnvs(GraphEnvs):
 
     In the context of GFN training, this environment allows for building a graph sequentially by
     sampling actions from the forward log-probability. But also allows removal of edges (i.e.
-    backwards steps) by sampling actions from teh backward log-probability.
+    backwards steps) by sampling actions from the backward log-probability.
     """
 
     def __init__(self, n_graphs, num_vars, device):
@@ -353,7 +353,7 @@ class GraphFwdBckEnvs(GraphEnvs):
 
 
 class PerNodeGraphEnvs(GFlowNetEnv):
-    """PerNodeGraphEnvs is simlar to GraphEnvs except it construct an evniroment to build graphs
+    """PerNodeGraphEnvs is similar to GraphEnvs except it construct an evniroment to build graphs
     sequentially for 1 node a time.
 
     Graphs are built for a repsective node by adding directed edges between the node and its

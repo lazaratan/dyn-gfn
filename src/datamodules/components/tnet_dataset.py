@@ -160,7 +160,7 @@ class SCData:
 
 
 def _get_data_points(adata, basis) -> np.ndarray:
-    """Returns the data points corrseponding to the selected basis."""
+    """Returns the data points corresponding to the selected basis."""
 
     if basis == "highly_variable":
         data_points = adata[:, adata.var[basis]].X.toarray()

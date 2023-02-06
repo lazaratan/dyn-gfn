@@ -2,7 +2,7 @@ r"""node_module.py.
 
 Here we define the following modules:
 
-    *  NODELitModule: Base NODE Moduel, implements data loading,
+    *  NODELitModule: Base NODE Module, implements data loading,
     evaluation calculations, and general loss function.
     This module is more general than velocity_module.py and allows
     for time-series extension for NeuralODE solver.
@@ -45,7 +45,7 @@ class NODELitModule(LightningModule):
             l1_reg: controls degree of sparsity of graphs
             l2_reg: controls degree of L2 regularization
             kl_reg: controls degree of KL term in variational inference
-            temperature: scaling for energy likelihood (1/temperatur**2)
+            temperature: scaling for energy likelihood (1/temperature**2)
             weight_decay: option to add weight_decay through optimizer
             optimizer: selects optimizer
             gamma: parameter for learning rate schedule
@@ -53,7 +53,7 @@ class NODELitModule(LightningModule):
                 and learning of graphs
             svgd (bool): if true use DiBS parameterization
                 and learning of graphs
-            svgd_gamma: controls particle seperation in SVGD for DiBS
+            svgd_gamma: controls particle separation in SVGD for DiBS
                 method
             solver: if using NeuralODE parameterization (instead of velocity
                 D ={x, dx}), this defines which solver to use.

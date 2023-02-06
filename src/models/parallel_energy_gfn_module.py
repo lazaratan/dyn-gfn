@@ -345,7 +345,7 @@ class ParallelTrainableCausalGraphGFlowNetModule(ParallelEnergyGFNModule):
         r"""Initializes a Parallel Energy GFN.
 
         Args:
-            n_dim: number of variables in dyanmic system (n_dim**2 = number of nodes in graph)
+            n_dim: number of variables in dynamic system (n_dim**2 = number of nodes in graph)
             structural_eq_model: structural equation defining reward energy
             env_batch_size: number of environments to step in parallel during training
             eval_batch_size: number of environments to use in evaluation
@@ -353,9 +353,9 @@ class ParallelTrainableCausalGraphGFlowNetModule(ParallelEnergyGFNModule):
             hidden_dim: number of hidden units for GFN transition prob parameterization
             lr: learning rate
             alpha: hparam for uniform mixing probability to encourage GFN policy exploration
-            temperature: scaling for energy likelihood (1/temperatur**2)
+            temperature: scaling for energy likelihood (1/temperature**2)
             temper_period: period of cosine schedule for softmax tempering of GFN policy
-            prior_lambda: controls degree of sparsity enforcment on graphs (\lambda * ||G||_0)
+            prior_lambda: controls degree of sparsity enforcement on graphs (\lambda * ||G||_0)
             beta: regression parameters for analytic linear solver
             full_posterior_eval (bool): if true attempts to evaluate the energy
                 on all possible states. This should only be performed on small
@@ -590,7 +590,7 @@ class PerNodeParallelTrainableCausalGraphGFlowNetModule(ParallelEnergyGFNModule)
         r"""Initializes a Per-node Parallel Energy GFN.
 
         Args:
-            n_dim: number of variables in dyanmic system (n_dim**2 = number of nodes in graph)
+            n_dim: number of variables in dynamic system (n_dim**2 = number of nodes in graph)
             structural_eq_model: structural equation defining reward energy
             env_batch_size: number of environments to step in parallel during training
             eval_batch_size: number of environments to use in evaluation
@@ -598,9 +598,9 @@ class PerNodeParallelTrainableCausalGraphGFlowNetModule(ParallelEnergyGFNModule)
             hidden_dim: number of hidden units for GFN transition prob parameterization
             lr: learning rate
             alpha: hparam for uniform mixing probability to encourage GFN policy exploration
-            temperature: scaling for energy likelihood (1/temperatur**2)
+            temperature: scaling for energy likelihood (1/temperature**2)
             temper_period: period of cosine schedule for softmax tempering of GFN policy
-            prior_lambda: controls degree of sparsity enforcment on graphs (\lambda * ||G||_0)
+            prior_lambda: controls degree of sparsity enforcement on graphs (\lambda * ||G||_0)
             beta: regression parameters for analytic linear solver
             gfn_freq: number of GFN optimizer steps per epoch
             energy_freq: if using trainable energy, number of energy model optimizer steps per epoch

@@ -111,7 +111,7 @@ class BayesianDrift(Intervenable):
         return torch.sum(prod)
 
     def kl_reg(self):
-        """KL divergence regularization on input layer paremters for Baysian SVI."""
+        """KL divergence regularization on input layer parameters for Baysian SVI."""
         return self.graphs._get_kl()
 
     def group_weights(self, gamma=0.5):

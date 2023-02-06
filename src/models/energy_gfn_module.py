@@ -91,7 +91,7 @@ class EnergyGFNModule(LightningModule):
                 determining valid states and actions for each state.
             loss_fn: gflownet loss function type
             alpha: parameter controlling GFN exploration
-            n_steps: number of edges to sample in GFN env (defualt 0 turns off this feature)
+            n_steps: number of edges to sample in GFN env (default 0 turns off this feature)
             env_batch_size: number of environments to step in parallel during training
             eval_batch_size: number of environments to use in evaluation
             lr: learning rate
