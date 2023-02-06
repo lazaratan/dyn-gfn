@@ -1,5 +1,4 @@
-"""Tests for model configurations.
-"""
+"""Tests for model configurations."""
 import pytest
 
 from tests.helpers.run_command import run_command
@@ -65,7 +64,9 @@ def test_model_basic_cpu(model):
 
 
 @pytest.mark.slow
-@pytest.mark.parametrize("experiment", ["per_node_linear_tcg", "per_node_sigmoid_tcg", "per_node_rna_tcg"])
+@pytest.mark.parametrize(
+    "experiment", ["per_node_linear_tcg", "per_node_sigmoid_tcg", "per_node_rna_tcg"]
+)
 def test_gfn_experiments_linear(experiment):
     command = [
         "train.py",
@@ -77,7 +78,14 @@ def test_gfn_experiments_linear(experiment):
 
 
 @pytest.mark.slow
-@pytest.mark.parametrize("experiment", ["hyper_per_node_linear_tcg", "hyper_per_node_sigmoid_tcg", "hyper_per_node_rna_tcg"])
+@pytest.mark.parametrize(
+    "experiment",
+    [
+        "hyper_per_node_linear_tcg",
+        "hyper_per_node_sigmoid_tcg",
+        "hyper_per_node_rna_tcg",
+    ],
+)
 def test_gfn_graph_experiments_hyper(experiment):
     command = [
         "train.py",
@@ -89,7 +97,17 @@ def test_gfn_graph_experiments_hyper(experiment):
 
 
 @pytest.mark.slow
-@pytest.mark.parametrize("experiment", ["linear_bayes", "linear_svgd", "linear_sigmoid_bayes", "linear_sigmoid_svgd", "linear_rna_bayes", "linear_rna_svgd"])
+@pytest.mark.parametrize(
+    "experiment",
+    [
+        "linear_bayes",
+        "linear_svgd",
+        "linear_sigmoid_bayes",
+        "linear_sigmoid_svgd",
+        "linear_rna_bayes",
+        "linear_rna_svgd",
+    ],
+)
 def test_bayes_drift_experiments_linear(experiment):
     command = [
         "train.py",
@@ -101,7 +119,17 @@ def test_bayes_drift_experiments_linear(experiment):
 
 
 @pytest.mark.slow
-@pytest.mark.parametrize("experiment", ["hyper_bayes", "hyper_svgd", "hyper_sigmoid_bayes", "hyper_sigmoid_svgd", "hyper_rna_bayes", "hyper_rna_svgd"])
+@pytest.mark.parametrize(
+    "experiment",
+    [
+        "hyper_bayes",
+        "hyper_svgd",
+        "hyper_sigmoid_bayes",
+        "hyper_sigmoid_svgd",
+        "hyper_rna_bayes",
+        "hyper_rna_svgd",
+    ],
+)
 def test_bayes_drift_experiments_hyper(experiment):
     command = [
         "train.py",
