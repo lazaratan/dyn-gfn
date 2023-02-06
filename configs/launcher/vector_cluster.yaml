@@ -11,7 +11,7 @@ hydra:
     tasks_per_node: 1
     nodes: 1
     mem_gb: 20
-    #additional_parameters: 
+    #additional_parameters:
     #  mem: 16G
     #mem_per_cpu: 20G
     #mem_per_gpu: 20

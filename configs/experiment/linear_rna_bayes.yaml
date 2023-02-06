@@ -40,4 +40,4 @@ trainer:
 
 logger:
   wandb:
-    tags: ["kl","analytic", "rna", "bayes", "${name}", "v_final_3"]
+    tags: ["kl", "analytic", "rna", "bayes", "${name}", "v_final_3"]

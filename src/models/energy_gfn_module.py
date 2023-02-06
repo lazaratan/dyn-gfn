@@ -128,7 +128,7 @@ class EnergyGFNModule(LightningModule):
         return input_states, forward_masks, backward_masks
 
     def trajectory_balance(self, batch: Any, batch_idx: int):
-        """
+        r"""
         L_TB =  [log {(Z \prod_t P_F(s_t | s_{t-1})) / (R(x) \prod_t P_B(s_{t-1} | s_t))} ]**2
 
         Parameterized functions:
@@ -508,12 +508,8 @@ class EnergyGFNModule(LightningModule):
 
     def eval_graph_metrics(self, batch: Any, batch_idx: int, prefix: str, graphs):
         # calculate val losses
-        loss, _, _, _ = self.compute_loss_true_graphs(
-            graphs, batch, return_mse=False
-        )
-        mse, _, _, _ = self.compute_loss_true_graphs(
-            graphs, batch, return_mse=True
-        )
+        loss, _, _, _ = self.compute_loss_true_graphs(graphs, batch, return_mse=False)
+        mse, _, _, _ = self.compute_loss_true_graphs(graphs, batch, return_mse=True)
         # loss = torch.zeros(1)
         graphs = graphs.detach().cpu().numpy()
         # log losses
@@ -759,7 +755,6 @@ class TrainableCausalGraphGFlowNetModule(EnergyGFNModule):
             )
         else:
             raise Exception("Need to select type of energy reward from boolean list")
-
 
         def env(device):
             return GraphEnv(n_dim, device)

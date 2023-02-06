@@ -3,9 +3,9 @@ r"""node_module.py.
 Here we define the following modules:
 
     *  NODELitModule: Base NODE Moduel, implements data loading,
-    evaluation calculations, and general loss function. 
+    evaluation calculations, and general loss function.
     This module is more general than velocity_module.py and allows
-    for time-series extension for NeuralODE solver. 
+    for time-series extension for NeuralODE solver.
 """
 from typing import Any, List
 
@@ -15,9 +15,8 @@ from pytorch_lightning import LightningModule
 from torch import Tensor, nn
 from torchdyn.core import NeuralODE
 from torchmetrics import MeanSquaredError
-from .components.evaluation import (
-    compare_graphs,
-)
+
+from .components.evaluation import compare_graphs
 
 
 class NODELitModule(LightningModule):
@@ -50,13 +49,13 @@ class NODELitModule(LightningModule):
             weight_decay: option to add weight_decay through optimizer
             optimizer: selects optimizer
             gamma: parameter for learning rate schedule
-            deepens (bool): if true use Deep Ensemble parameterization 
+            deepens (bool): if true use Deep Ensemble parameterization
                 and learning of graphs
-            svgd (bool): if true use DiBS parameterization 
+            svgd (bool): if true use DiBS parameterization
                 and learning of graphs
             svgd_gamma: controls particle seperation in SVGD for DiBS
                 method
-            solver: if using NeuralODE parameterization (instead of velocity 
+            solver: if using NeuralODE parameterization (instead of velocity
                 D ={x, dx}), this defines which solver to use.
                 NOTE: not used in this version.
         """
@@ -191,6 +190,7 @@ class NODELitModule(LightningModule):
             optimizer = torch.optim.SGD
         elif self.hparams.optimizer == "sgld":
             from .components.SGLD import SGLD
+
             optimizer = SGLD
         elif self.hparams.optimizer == "rmsprop":
             optimizer = torch.optim.RMSprop

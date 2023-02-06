@@ -3,12 +3,12 @@ r"""velocity_module.py.
 Here we define the following modules:
 
     *  VelocityLitModule: Base Velocity Moduel, implements data loading,
-    evaluation calculations, and general loss function. 
+    evaluation calculations, and general loss function.
     Has the following subclasses:
 
     1. LinearLitModule: Uses linear SCM to parameterize dx = f(x).
         SCM parameters are solved using anlytic linear solver
-    2. HyperLitModule: Uses hyper-network to learn parameters for 
+    2. HyperLitModule: Uses hyper-network to learn parameters for
         dx = f(x). SCM parameters are parameterized more expressively.
 """
 
@@ -20,17 +20,14 @@ import torch
 from torch import Tensor, nn
 from torchmetrics import MeanSquaredError
 
-from .components.bayesian_drift import (
-    BayesianDrift,
-    LinearBayesianDrift,
-)
+from .components.bayesian_drift import BayesianDrift, LinearBayesianDrift
 from .components.evaluation import (
     compare_graphs,
     compare_graphs_bayesian_cover,
     compare_graphs_bayesian_shd,
     compute_graphs_bayesian_diversity,
     compute_graphs_sparsity,
-    kl_distance_true_sigmoid
+    kl_distance_true_sigmoid,
 )
 from .node_module import NODELitModule
 
@@ -51,7 +48,7 @@ class VelocityLitModule(NODELitModule):
         svgd: bool = False,
         svgd_gamma: float = 0.0,
         **kwargs,
-    ):  
+    ):
         """Initializes a Bayesian Velocity Module.
 
         Args:
@@ -64,9 +61,9 @@ class VelocityLitModule(NODELitModule):
             weight_decay: option to add weight_decay through optimizer
             optimizer: selects optimizer
             gamma: parameter for learning rate schedule
-            deepens (bool): if true use Deep Ensemble parameterization 
+            deepens (bool): if true use Deep Ensemble parameterization
                 and learning of graphs
-            svgd (bool): if true use DiBS parameterization 
+            svgd (bool): if true use DiBS parameterization
                 and learning of graphs
             svgd_gamma: controls particle seperation in SVGD for DiBS
                 method
@@ -94,9 +91,7 @@ class VelocityLitModule(NODELitModule):
         return loss, pred, y
 
     def compute_grn_modes(self, graph):
-        """
-        Computes ground truth admissible graphs for RNA-velocity dataset.
-        """
+        """Computes ground truth admissible graphs for RNA-velocity dataset."""
         n = graph.shape[0]
         mask_list = []
         for var in [1]:
@@ -104,7 +99,7 @@ class VelocityLitModule(NODELitModule):
             mask = line.clone().to(bool)
             m = mask.sum()
             mask_list.append(mask)
-            sub_graphs = torch.zeros((3 ** m, 3, n))
+            sub_graphs = torch.zeros((3**m, 3, n))
             for i, line in enumerate(list(itertools.product(range(3), repeat=4))):
                 for j, index in zip(line, np.arange(n)[mask]):
                     sub_graphs[i, j, index] = 1
@@ -112,24 +107,26 @@ class VelocityLitModule(NODELitModule):
         prod = sub_graphs
         certain_graph0 = graph[:1].repeat(prod.shape[0], 1, 1)
         certain_graph_mid = graph[2:-2].repeat(prod.shape[0], 1, 1)
-        floppier_graph = torch.cat([certain_graph0, prod[:,:1], certain_graph_mid, prod[:,1:]], dim=1)
+        floppier_graph = torch.cat(
+            [certain_graph0, prod[:, :1], certain_graph_mid, prod[:, 1:]], dim=1
+        )
         return floppier_graph
 
     def compute_true_modes(self, graph):
-        """
-        Computes ground truth admissible graphs for syntehtic dataset.
-        """
+        """Computes ground truth admissible graphs for syntehtic dataset."""
         graph = torch.tensor(graph)
         n = graph.shape[0]
         graph_list = []
         mask_list = []
-        for var in [0,1,2]:
+        for var in [0, 1, 2]:
             line = graph[var]
             mask = line.clone().to(bool)
             graphs = torch.zeros((2 ** mask.sum(), n))
             m = mask.sum()
             mask_list.append(mask)
-            graphs[:, mask] = torch.tensor(list(itertools.product(range(2), repeat=m))).to(torch.float32)
+            graphs[:, mask] = torch.tensor(
+                list(itertools.product(range(2), repeat=m))
+            ).to(torch.float32)
             graph_list.append(graphs)
         masks = torch.stack(mask_list)
         prod = torch.stack([torch.stack(s) for s in itertools.product(*graph_list)])
@@ -158,10 +155,14 @@ class VelocityLitModule(NODELitModule):
                     true_graphs = self.compute_grn_modes(torch.tensor(gc))
                 else:
                     true_graphs = self.compute_true_modes(gc)
-                Z = self.net.get_structure(eval_n_graphs=self.hparams.eval_batch_size, test_mode=True)
+                Z = self.net.get_structure(
+                    eval_n_graphs=self.hparams.eval_batch_size, test_mode=True
+                )
                 kl_div = kl_distance_true_sigmoid(Z, true_graphs, self.hparams.alpha)
                 self.log(f"{prefix}/kl_div", kl_div, on_step=False, on_epoch=True)
-                self.log(f"{prefix}/alpha", self.hparams.alpha, on_step=False, on_epoch=True)
+                self.log(
+                    f"{prefix}/alpha", self.hparams.alpha, on_step=False, on_epoch=True
+                )
 
         self.log(f"{prefix}/loss", loss, on_step=False, on_epoch=True, prog_bar=True)
         to_return = {"loss": loss, "preds": preds, "targets": targets}
@@ -185,9 +186,9 @@ class VelocityLitModule(NODELitModule):
 
 
 class LinearLitModule(VelocityLitModule):
-    """
-    LinearLitModule implements analytic linear parameter hyper network specific training and evaluation code.
-    """
+    """LinearLitModule implements analytic linear parameter hyper network specific training and
+    evaluation code."""
+
     def __init__(
         self,
         dm_conf,
@@ -202,7 +203,7 @@ class LinearLitModule(VelocityLitModule):
         hyper: Optional[str] = None,
         **kwargs,
     ) -> None:
-        """Initializes a HyperLitModule Module.
+        r"""Initializes a HyperLitModule Module.
 
         Args:
             dm_conf: datamodule configuration
@@ -216,7 +217,7 @@ class LinearLitModule(VelocityLitModule):
                 G = simoid(alpha_t * w^t*v)
             svgd_gamma: controls particle seperation in SVGD for DiBS
                 method
-            deepens (bool): if true use Deep Ensemble parameterization 
+            deepens (bool): if true use Deep Ensemble parameterization
                 and learning of graphs
             hyper: selects hyper-network parameterization
         """
@@ -300,9 +301,8 @@ class LinearLitModule(VelocityLitModule):
 
 
 class HyperLitModule(VelocityLitModule):
-    """
-    HyperLitModule implements parameter hyper network specific training and evaluation code.
-    """
+    """HyperLitModule implements parameter hyper network specific training and evaluation code."""
+
     def __init__(
         self,
         dm_conf,
@@ -317,7 +317,7 @@ class HyperLitModule(VelocityLitModule):
         hyper: Optional[str] = None,
         **kwargs,
     ) -> None:
-        """Initializes a HyperLitModule Module.
+        r"""Initializes a HyperLitModule Module.
 
         Args:
             dm_conf: datamodule configuration
@@ -331,7 +331,7 @@ class HyperLitModule(VelocityLitModule):
                 G = simoid(alpha_t * w^t*v)
             svgd_gamma: controls particle seperation in SVGD for DiBS
                 method
-            deepens (bool): if true use Deep Ensemble parameterization 
+            deepens (bool): if true use Deep Ensemble parameterization
                 and learning of graphs
             hyper: selects hyper-network parameterization
         """

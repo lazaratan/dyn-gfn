@@ -12,7 +12,7 @@ Here we define the following primary modules:
         analytic solver for linear SCM parameters to minimize the loss or train the energy model.
         to minimize the loss E_{G \sim Q(G | D)} \| f(x, theta, G)
         - dx \|_2^2, i.e. fit the energy model on the posterior graphs.
-        2. PerNodeParallelTrainableCausalGraphGFlowNetModule: Identical to (1) except 
+        2. PerNodeParallelTrainableCausalGraphGFlowNetModule: Identical to (1) except
         uses per-node graph factorization
 """
 import itertools
@@ -30,10 +30,7 @@ from .components.energy import (
     SimpleAnalyticBayesVelocityEnergy,
     VelocityEnergy,
 )
-from .components.environments import (
-    GraphEnvs,
-    PerNodeGraphEnvs,
-)
+from .components.environments import GraphEnvs, PerNodeGraphEnvs
 from .components.structural_equations import (
     HyperStructuralEquationModel,
     LinearStructuralEquationModel,
@@ -46,9 +43,8 @@ from .energy_gfn_module import (
 
 
 class ParallelEnergyGFNModule(EnergyGFNModule):
-    """
-    Parallelized GFlowNet module with energy-based reward energy.
-    """
+    """Parallelized GFlowNet module with energy-based reward energy."""
+
     def reset_envs(self):
         self.envs.reset()
 
@@ -62,7 +58,7 @@ class ParallelEnergyGFNModule(EnergyGFNModule):
         )
 
     def trajectory_balance(self, batch: Any, batch_idx: int):
-        """
+        r"""
         L_TB =  [log {(Z \prod_t P_F(s_t | s_{t-1})) / (R(x) \prod_t P_B(s_{t-1} | s_t))} ]**2
 
         Parameterized functions:
@@ -346,37 +342,35 @@ class ParallelTrainableCausalGraphGFlowNetModule(ParallelEnergyGFNModule):
         solver: str = None,
         **kwargs,
     ) -> None:
-        """ Initializes a Parallel Energy GFN.
+        r"""Initializes a Parallel Energy GFN.
 
-            Args:
-                n_dim: number of variables in dyanmic system (n_dim**2 = number of nodes in graph)
-                structural_eq_model: structural equation defining reward energy
-                env_batch_size: number of environments to step in parallel during training
-                eval_batch_size: number of environments to use in evaluation
-                uniform_backwards (bool): if true uses uniform distribution for backward transition probabilities
-                hidden_dim: number of hidden units for GFN transition prob parameterization
-                lr: learning rate
-                alpha: hparam for uniform mixing probability to encourage GFN policy exploration
-                temperature: scaling for energy likelihood (1/temperatur**2)
-                temper_period: period of cosine schedule for softmax tempering of GFN policy
-                prior_lambda: controls degree of sparsity enforcment on graphs (\lambda * ||G||_0)
-                beta: regression parameters for analytic linear solver
-                full_posterior_eval (bool): if true attempts to evaluate the energy
-                    on all possible states. This should only be performed on small
-                    state spaces.
-                debug_use_shd_energy (bool): if true uses known hamming distance energy.
-                    This is uses ground truth graphs. Used for designing shape of energy 
-                    reward.
-                analytic_use_simple_mse_energy (bool): if true uses analytic linear solver
-                    for linear SCM parameters.
+        Args:
+            n_dim: number of variables in dyanmic system (n_dim**2 = number of nodes in graph)
+            structural_eq_model: structural equation defining reward energy
+            env_batch_size: number of environments to step in parallel during training
+            eval_batch_size: number of environments to use in evaluation
+            uniform_backwards (bool): if true uses uniform distribution for backward transition probabilities
+            hidden_dim: number of hidden units for GFN transition prob parameterization
+            lr: learning rate
+            alpha: hparam for uniform mixing probability to encourage GFN policy exploration
+            temperature: scaling for energy likelihood (1/temperatur**2)
+            temper_period: period of cosine schedule for softmax tempering of GFN policy
+            prior_lambda: controls degree of sparsity enforcment on graphs (\lambda * ||G||_0)
+            beta: regression parameters for analytic linear solver
+            full_posterior_eval (bool): if true attempts to evaluate the energy
+                on all possible states. This should only be performed on small
+                state spaces.
+            debug_use_shd_energy (bool): if true uses known hamming distance energy.
+                This is uses ground truth graphs. Used for designing shape of energy
+                reward.
+            analytic_use_simple_mse_energy (bool): if true uses analytic linear solver
+                for linear SCM parameters.
         """
         assert 0 <= alpha <= 1
         if temper_period != 0:
             self.c_temper = 1.0
 
-        gfn_model = construct_gfn_graph_mlp(
-                    n_dim, uniform_backwards, hidden_dim
-                )
+        gfn_model = construct_gfn_graph_mlp(n_dim, uniform_backwards, hidden_dim)
 
         if debug_use_shd_energy:
             print("Warning: using cheater hamming distance energy")
@@ -390,9 +384,11 @@ class ParallelTrainableCausalGraphGFlowNetModule(ParallelEnergyGFNModule):
                 prior_lambda=prior_lambda,
                 temperature=temperature,
             )
-        else: 
+        else:
             print("\n Using Velocity hyper-net reward eneryg \n")
-            energy_model = VelocityEnergy(structural_eq_model, prior_lambda, temperature)
+            energy_model = VelocityEnergy(
+                structural_eq_model, prior_lambda, temperature
+            )
 
         def env(n_graphs, device):
             return GraphEnvs(n_graphs, n_dim, device)
@@ -558,13 +554,14 @@ class ParallelLinearTrainableCausalGraphGFlowNetModule(
 
 
 class PerNodeParallelTrainableCausalGraphGFlowNetModule(ParallelEnergyGFNModule):
-    """
+    r"""
     Implements Per-node GFN factorized model:
 
     Q(G | D) \ \prod_{i \in 1,...,d} Q_i(G_i | D).
 
     This module uses d GFNs, 1 GFN for each per-variable graph.
     """
+
     _debug_generate_full_graphs = False
 
     def __init__(
@@ -590,33 +587,33 @@ class PerNodeParallelTrainableCausalGraphGFlowNetModule(ParallelEnergyGFNModule)
         analytic_use_simple_mse_energy: bool = False,
         **kwargs,
     ) -> None:
-        """ Initializes a Per-node Parallel Energy GFN.
+        r"""Initializes a Per-node Parallel Energy GFN.
 
-            Args:
-                n_dim: number of variables in dyanmic system (n_dim**2 = number of nodes in graph)
-                structural_eq_model: structural equation defining reward energy
-                env_batch_size: number of environments to step in parallel during training
-                eval_batch_size: number of environments to use in evaluation
-                uniform_backwards (bool): if true uses uniform distribution for backward transition probabilities
-                hidden_dim: number of hidden units for GFN transition prob parameterization
-                lr: learning rate
-                alpha: hparam for uniform mixing probability to encourage GFN policy exploration
-                temperature: scaling for energy likelihood (1/temperatur**2)
-                temper_period: period of cosine schedule for softmax tempering of GFN policy
-                prior_lambda: controls degree of sparsity enforcment on graphs (\lambda * ||G||_0)
-                beta: regression parameters for analytic linear solver
-                gfn_freq: number of GFN optimizer steps per epoch
-                energy_freq: if using trainable energy, number of energy model optimizer steps per epoch
-                load_pretrain (bool): if true, use pre-trained GFN flow model
-                pretraining_epochs: number of epochs to pre-train GFN model with fixed graphs
-                full_posterior_eval (bool): if true attempts to evaluate the energy
-                    on all possible states. This should only be performed on small
-                    state spaces.
-                debug_use_shd_energy (bool): if true uses known hamming distance energy.
-                    This is uses ground truth graphs. Used for designing shape of energy 
-                    reward.
-                analytic_use_simple_mse_energy (bool): if true uses analytic linear solver
-                    for linear SCM parameters.
+        Args:
+            n_dim: number of variables in dyanmic system (n_dim**2 = number of nodes in graph)
+            structural_eq_model: structural equation defining reward energy
+            env_batch_size: number of environments to step in parallel during training
+            eval_batch_size: number of environments to use in evaluation
+            uniform_backwards (bool): if true uses uniform distribution for backward transition probabilities
+            hidden_dim: number of hidden units for GFN transition prob parameterization
+            lr: learning rate
+            alpha: hparam for uniform mixing probability to encourage GFN policy exploration
+            temperature: scaling for energy likelihood (1/temperatur**2)
+            temper_period: period of cosine schedule for softmax tempering of GFN policy
+            prior_lambda: controls degree of sparsity enforcment on graphs (\lambda * ||G||_0)
+            beta: regression parameters for analytic linear solver
+            gfn_freq: number of GFN optimizer steps per epoch
+            energy_freq: if using trainable energy, number of energy model optimizer steps per epoch
+            load_pretrain (bool): if true, use pre-trained GFN flow model
+            pretraining_epochs: number of epochs to pre-train GFN model with fixed graphs
+            full_posterior_eval (bool): if true attempts to evaluate the energy
+                on all possible states. This should only be performed on small
+                state spaces.
+            debug_use_shd_energy (bool): if true uses known hamming distance energy.
+                This is uses ground truth graphs. Used for designing shape of energy
+                reward.
+            analytic_use_simple_mse_energy (bool): if true uses analytic linear solver
+                for linear SCM parameters.
         """
         assert 0 <= alpha <= 1
         if temper_period != 0:
@@ -625,8 +622,8 @@ class PerNodeParallelTrainableCausalGraphGFlowNetModule(ParallelEnergyGFNModule)
         self.n_dim = n_dim
 
         gfn_model = construct_per_node_gfn_graph_mlp(
-                n_dim, uniform_backwards, hidden_dim
-            )
+            n_dim, uniform_backwards, hidden_dim
+        )
 
         if debug_use_shd_energy:
             print("Warning: using cheater hamming distance energy")
@@ -668,8 +665,7 @@ class PerNodeParallelTrainableCausalGraphGFlowNetModule(ParallelEnergyGFNModule)
         self.envs[self.p].reset()
 
     def detailed_balance(self, batch: Any, batch_idx: int):
-        """
-        Per-node detailed balance. Each state s_i represents a complete trajectory G_i.
+        """Per-node detailed balance. Each state s_i represents a complete trajectory G_i.
 
         L_DB = [log { (R(s_i) P_B(s_{i-1} | s_i) P_F(s_n | s_{i-1})) / ((R(s_{i-1}) P_F(s_i | s_{i-1}) P_F(s_n | s_i))) }]**2
 
@@ -791,9 +787,7 @@ class PerNodeParallelTrainableCausalGraphGFlowNetModule(ParallelEnergyGFNModule)
         return envs
 
     def compute_grn_modes(self, graph):
-        """
-        Computes ground truth admissible graphs for RNA-velocity dataset.
-        """
+        """Computes ground truth admissible graphs for RNA-velocity dataset."""
         n = graph.shape[0]
         mask_list = []
         for var in [1]:
@@ -801,7 +795,7 @@ class PerNodeParallelTrainableCausalGraphGFlowNetModule(ParallelEnergyGFNModule)
             mask = line.clone().to(bool)
             m = mask.sum()
             mask_list.append(mask)
-            sub_graphs = torch.zeros((3 ** m, 3, n))
+            sub_graphs = torch.zeros((3**m, 3, n))
             for i, line in enumerate(list(itertools.product(range(3), repeat=4))):
                 for j, index in zip(line, np.arange(n)[mask.cpu()]):
                     sub_graphs[i, j, index] = 1
@@ -809,13 +803,13 @@ class PerNodeParallelTrainableCausalGraphGFlowNetModule(ParallelEnergyGFNModule)
         prod = sub_graphs.to(graph)
         certain_graph0 = graph[:1].repeat(prod.shape[0], 1, 1).to(graph)
         certain_graph_mid = graph[2:-2].repeat(prod.shape[0], 1, 1)
-        floppier_graph = torch.cat([certain_graph0, prod[:,:1], certain_graph_mid, prod[:,1:]], dim=1)
+        floppier_graph = torch.cat(
+            [certain_graph0, prod[:, :1], certain_graph_mid, prod[:, 1:]], dim=1
+        )
         return floppier_graph
 
     def compute_true_modes(self, graph):
-        """
-        Computes ground truth admissible graphs for syntehtic dataset.
-        """
+        """Computes ground truth admissible graphs for syntehtic dataset."""
         n = graph.shape[0]
         graph_list = []
         mask_list = []
@@ -836,11 +830,9 @@ class PerNodeParallelTrainableCausalGraphGFlowNetModule(ParallelEnergyGFNModule)
         certain_graph = certain_graph.repeat(prod.shape[0], 1, 1).to(graphs)
         floppier_graph = torch.cat([prod, certain_graph, other], dim=1)
         return floppier_graph
-        
+
     def compute_traj_likelihood(self, per_node_graph, gfn_model, nll_envs):
-        """
-        Computes likelihood Q(G) of a complete trajectory (construction of G).
-        """
+        """Computes likelihood Q(G) of a complete trajectory (construction of G)."""
         G_prob_like = 0
         action_trajectories = nll_envs.action_trajectoreis(per_node_graph)
         log_sum_args = []
@@ -853,7 +845,9 @@ class PerNodeParallelTrainableCausalGraphGFlowNetModule(ParallelEnergyGFNModule)
                     forward_logprob = gfn_model(*states_and_masks)[0]
                     log_like_traj += forward_logprob[0, a]
                     nll_envs.step(a)
-                log_like_traj += forward_logprob[0, per_node_graph.shape[0]] # add termination log_prob
+                log_like_traj += forward_logprob[
+                    0, per_node_graph.shape[0]
+                ]  # add termination log_prob
                 log_sum_args.append(torch.tensor(log_like_traj))
             else:
                 nll_envs.reset()
@@ -868,12 +862,10 @@ class PerNodeParallelTrainableCausalGraphGFlowNetModule(ParallelEnergyGFNModule)
         return G_prob_like
 
     def kl_distance_true(self, true_graphs):
-        """
-        KL metric between learned posterior Q(G | D) and 
-        ground truth posterior distribution P(G*) over admissible
-        structures G*. 
+        """KL metric between learned posterior Q(G | D) and ground truth posterior distribution
+        P(G*) over admissible structures G*.
 
-        KL(P || Q) = P(G*) (log P(G*) - log Q(G | D)) 
+        KL(P || Q) = P(G*) (log P(G*) - log Q(G | D))
         """
         P = true_graphs.shape[-1]
         num_graphs = true_graphs.shape[0]
@@ -895,7 +887,7 @@ class PerNodeParallelTrainableCausalGraphGFlowNetModule(ParallelEnergyGFNModule)
             log_Q_G.append(log_Q_Gp)
 
         logprobs = torch.stack(log_Q_G)
-        logprobs = logprobs.cpu().detach().numpy() 
+        logprobs = logprobs.cpu().detach().numpy()
         np.save("logprobs.npy", logprobs)
 
         # compute discrete KL(P || Q)
@@ -1062,9 +1054,7 @@ class PerNodeParallelTrainableCausalGraphGFlowNetModule(ParallelEnergyGFNModule)
         return graph_metrics
 
     def configure_optimizers(self):
-        if (
-            self.hparams.analytic_use_simple_mse_energy
-        ):
+        if self.hparams.analytic_use_simple_mse_energy:
             gfn_opt = torch.optim.Adam(
                 [
                     {"params": self.gfn_model.parameters()},
@@ -1173,4 +1163,3 @@ class ParallelHyperTrainableCausalGraphGFlowNetModule(
         self.save_hyperparameters(
             ignore=["dm_conf", "structural_eq_model"], logger=False
         )
-

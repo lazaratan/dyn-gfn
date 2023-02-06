@@ -126,41 +126,40 @@ def compute_neg_log_likelihood_svgd(graphs, preds, targets):
 
 
 def kl_distance_true_sigmoid(z_graphs, true_graphs, alpha):
-        P = true_graphs.shape[-1]
-        num_graphs = true_graphs.shape[0]
-       
-        p = torch.sigmoid(alpha * z_graphs) # p = p(edge = 1)
+    P = true_graphs.shape[-1]
+    num_graphs = true_graphs.shape[0]
 
-        log_p = torch.log(p + 1e-20)
-        q = 1 - p # q = p(edge = 0)
-        log_q = torch.log(q + 1e-20)
+    p = torch.sigmoid(alpha * z_graphs)  # p = p(edge = 1)
 
-        # compute log Q(G)
-        log_Q_G = []
-        for m in range(num_graphs):
-            log_Q_Gm = 0
-            g = true_graphs[m]
-            for i in range(P):
-                for j in range(P):
-                    if g[i, j] == 1:
-                        log_Q_Gm += log_p[m,i,j]
-                    else:
-                        log_Q_Gm += log_q[m,i,j]
-            if m % 5 == 00:
-                print("{}/{} graph probs computed".format(m, num_graphs))
-            log_Q_G.append(log_Q_Gm)  
+    log_p = torch.log(p + 1e-20)
+    q = 1 - p  # q = p(edge = 0)
+    log_q = torch.log(q + 1e-20)
 
-        log_Q_G = torch.stack(log_Q_G)
+    # compute log Q(G)
+    log_Q_G = []
+    for m in range(num_graphs):
+        log_Q_Gm = 0
+        g = true_graphs[m]
+        for i in range(P):
+            for j in range(P):
+                if g[i, j] == 1:
+                    log_Q_Gm += log_p[m, i, j]
+                else:
+                    log_Q_Gm += log_q[m, i, j]
+        if m % 5 == 00:
+            print(f"{m}/{num_graphs} graph probs computed")
+        log_Q_G.append(log_Q_Gm)
 
-        
-        # compute discrete KL(P || Q)
-        P_G = torch.tensor(1 / num_graphs)
-        log_P_G = torch.log(P_G)
-        kl = 0
-        for i in range(len(log_Q_G)):
-            kl += P_G * (log_P_G - log_Q_G[i])
+    log_Q_G = torch.stack(log_Q_G)
 
-        return kl
+    # compute discrete KL(P || Q)
+    P_G = torch.tensor(1 / num_graphs)
+    log_P_G = torch.log(P_G)
+    kl = 0
+    for i in range(len(log_Q_G)):
+        kl += P_G * (log_P_G - log_Q_G[i])
+
+    return kl
 
 
 def compare_graph_distribution(true_graph, estimated_graphs):

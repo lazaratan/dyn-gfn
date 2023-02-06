@@ -31,9 +31,7 @@ class RNAVelocityDataModule(LightningDataModule):
         super().__init__()
         self.save_hyperparameters(logger=True)
         if adata_path is None:
-            adata_path = (
-                "/h/lazar/data/adata_unidentified_velocity.h5ad"
-            )
+            adata_path = "/h/lazar/data/adata_unidentified_velocity.h5ad"
         adata = sc.read_h5ad(adata_path)
         if "fast_dev_run" in kwargs and kwargs["fast_dev_run"]:
             log.info("fast_dev_run detected, reducing dataset size")

@@ -55,4 +55,5 @@ trainer:
 
 logger:
   wandb:
-    tags: ["kl", "analytic", "sigmoid", "per-node", "gfn", "${name}", "v_final_3"]
+    tags:
+      ["kl", "analytic", "sigmoid", "per-node", "gfn", "${name}", "v_final_3"]

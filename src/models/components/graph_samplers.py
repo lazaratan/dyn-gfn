@@ -161,7 +161,9 @@ class GraphLayerSVGD(Module):
         self.reset_parameters()
 
     def reset_parameters(self):
-        torch.nn.init.normal_(self.w, mean=0, std=1e-2)  # std=1e-2 lin-sys lin-sol, lin-sys 1e-3 hyper-sol
+        torch.nn.init.normal_(
+            self.w, mean=0, std=1e-2
+        )  # std=1e-2 lin-sys lin-sol, lin-sys 1e-3 hyper-sol
         torch.nn.init.normal_(self.v, mean=0, std=1e-2)  # std=1e-2 for linear sovler
 
     def Z(self, eval_n_graphs=None):
@@ -173,7 +175,7 @@ class GraphLayerSVGD(Module):
     def forward(self, eval_n_graphs=None, test_mode=None):
         Z = self.Z(eval_n_graphs)
         if test_mode:
-            #G = torch.sigmoid(0.010959014554237987 * Z)
+            # G = torch.sigmoid(0.010959014554237987 * Z)
             return Z
         if eval_n_graphs is None:
             return Z

@@ -5,7 +5,7 @@ import torch
 import torch.nn.functional as F
 from torch import nn
 
-from .hyper_nets import HyperLocallyConnected 
+from .hyper_nets import HyperLocallyConnected
 
 
 class LinearStructuralEquationModel(nn.Module):

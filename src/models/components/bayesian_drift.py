@@ -4,15 +4,11 @@ Torch modules that represent drift functions for predicitng dx.
 Running forward on these modules should return a predcition for dx given inputs x and sampled graphs G \sim Q(G | D)
 """
 import torch
-import torch.nn.functional 
+import torch.nn.functional
 from torch import nn
 
 from .base import Intervenable
-from .graph_samplers import (
-    GraphLayer,
-    GraphLayerSVGD,
-    GraphLayerVI,
-)
+from .graph_samplers import GraphLayer, GraphLayerSVGD, GraphLayerVI
 from .hyper_nets import AnalyiticLinearLocallyConnected, HyperLocallyConnected
 from .kernel import RBF
 

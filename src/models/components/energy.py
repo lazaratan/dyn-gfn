@@ -189,9 +189,7 @@ class PerNodeSimpleAnalyticBayesVelocityEnergy(nn.Module):
         x = x.unsqueeze(1).unsqueeze(0)
         dx = dx.unsqueeze(1)
         if G.shape[1] == 1:
-            x_masked = G.unsqueeze(1) * x[:, :, :, node_idx].unsqueeze(
-                -1
-            ) 
+            x_masked = G.unsqueeze(1) * x[:, :, :, node_idx].unsqueeze(-1)
             A_est = []
             w_est = torch.linalg.solve(
                 (torch.transpose(x_masked[:, :, 0, :], -2, -1) @ x_masked[:, :, 0, :])
