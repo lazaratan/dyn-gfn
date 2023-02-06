@@ -1,0 +1,11 @@
+_target_: src.datamodules.simulated_datamodule.SimulatedDataModule
+
+data_dir: ${data_dir} # data_dir is specified in config.yaml
+system: "linear"
+sigma: 0.5
+burn_in: 0
+train_val_test_split: [160, 20, 20]
+batch_size: 10
+num_workers: 0
+pin_memory: False
+p: 10

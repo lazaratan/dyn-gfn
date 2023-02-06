@@ -1,0 +1,30 @@
+# @package _global_
+#
+# to execute this experiment run:
+# python train.py experiment=hyper_gfn
+
+defaults:
+  - override /model: energy_hyper_gfn.yaml
+  - override /datamodule: dummy.yaml
+  - override /logger:
+      - wandb.yaml
+      - csv.yaml
+name: "hyper_gfn"
+
+seed: 42
+
+datamodule:
+  n_batches_per_epoch: 100
+
+model:
+  env_batch_size: 64
+  uniform_backwards: False
+  loss_fn: "trajectory_balance"
+
+trainer:
+  max_epochs: 50
+  check_val_every_n_epoch: 2
+
+logger:
+  wandb:
+    tags: ["hyper", "${name}", "v1"]

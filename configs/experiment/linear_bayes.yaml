@@ -1,0 +1,50 @@
+# @package _global_
+#
+# to execute this experiment run:
+# python train.py experiment=linear_bayes
+
+defaults:
+  - override /model: bayesian_linear_velocity
+  - override /datamodule: linear_unidentifiable_velocity.yaml
+  - override /logger:
+      - wandb
+      - csv
+  - override /trainer: gpu
+name: "linear_gVI"
+
+seed: 0 #13
+
+datamodule:
+  batch_size: 100
+  p: 20
+  vars_to_deidentify: [0, 1, 2]
+  sigma: 0.0
+  sparsity: 0.9
+  system: "linear"
+  T: 2
+  seed: 13
+
+# best
+model:
+  lr: 1e-4
+  alpha: 18.2208671582886 # TRAIN: 0.1, TEST: alpha_t after training  (bs=100 -> 18.2208671582886)
+  l1_reg: 0.001
+  kl_reg: 0.1
+  svgd_reg: 0
+  temperature: 0.01
+  n_ens: 5000
+  eval_batch_size: 5000
+  k_hidden: 20
+  hyper: "linear" #["mlp", "invariant", "per_graph", "deepset"]
+  hyper_hidden_dim: [64, 64, 64]
+  bias: True
+
+  optimizer: "adam"
+
+trainer:
+  max_epochs: 1000
+  check_val_every_n_epoch: 5
+
+logger:
+  wandb:
+    tags: ["kl", "analytic", "linear", "bayes", "${name}", "v_alpha"]

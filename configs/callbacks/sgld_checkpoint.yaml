@@ -1,0 +1,17 @@
+latest_checkpoints:
+  _target_: pytorch_lightning.callbacks.ModelCheckpoint
+  save_top_k: 1000
+  monitor: "global_step"
+  mode: "max"
+  verbose: False
+  dirpath: "latest_checkpoints/"
+  filename: "latest-{epoch:03d}-{step}"
+  every_n_train_steps: 10
+  auto_insert_metric_name: False
+
+model_summary:
+  _target_: pytorch_lightning.callbacks.RichModelSummary
+  max_depth: -1
+
+rich_progress_bar:
+  _target_: pytorch_lightning.callbacks.RichProgressBar

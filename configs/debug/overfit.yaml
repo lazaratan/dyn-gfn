@@ -1,0 +1,16 @@
+# @package _global_
+
+# overfits to 3 batches
+
+defaults:
+  - default.yaml
+
+trainer:
+  max_epochs: 100
+  overfit_batches: 3
+
+callbacks:
+  early_stopping:
+    monitor: train/loss
+  model_checkpoint:
+    monitor: train/loss

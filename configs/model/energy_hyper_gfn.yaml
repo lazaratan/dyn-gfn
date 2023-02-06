@@ -1,0 +1,11 @@
+_target_: src.models.energy_gfn_module.HyperGridGFlowNetModule
+
+H: 8
+n_dim: 2
+env_batch_size: 64
+eval_batch_size: 1000
+uniform_backwards: False
+hidden_dim: 64
+lr: 0.01
+full_posterior_eval: True
+loss_fn: "trajectory_balance"

@@ -1,0 +1,50 @@
+# @package _global_
+#
+# to execute this experiment run:
+# python train.py experiment=tcg
+
+defaults:
+  - override /model: hyper_tcg
+  - override /datamodule: lorenz_velocity #unidentifiable_velocity.yaml
+  - override /logger:
+      - csv
+      - wandb
+  - override /trainer: gpu
+name: "tcg_gfn"
+
+seed: 0
+
+datamodule:
+  batch_size: 100
+  p: 5
+  vars_to_deidentify: [0]
+  system: "lorenz"
+
+model:
+  env_batch_size: 256
+  eval_batch_size: 10000
+  full_posterior_eval: False
+  uniform_backwards: False
+  debug_use_shd_energy: False
+  loss_fn: "fixed_length_tb"
+  n_steps: 20
+  arch: "mlp"
+  alpha: 0.0
+  temperature: 100
+  temper_period: 17
+  w_mse: 1.0 # 0 <= w_mse <= 1
+  confidence: 0.0
+  hidden_dim: 1024
+  embed_dim: 64 # used for transformer architecture
+  gfn_freq: 29
+  energy_freq: 1
+  lr: 1e-4
+  hyper: "mlp"
+
+trainer:
+  max_epochs: 200
+  check_val_every_n_epoch: 1
+
+logger:
+  wandb:
+    tags: ["mse", "k-sparse", "id", "1_cor_var", "${name}", "v5"]

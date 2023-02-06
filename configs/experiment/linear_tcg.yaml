@@ -1,0 +1,57 @@
+# @package _global_
+#
+# to execute this experiment run:
+# python train.py experiment=tcg
+
+defaults:
+  - override /model: linear_tcg #hyper_tcg
+  - override /datamodule: linear_unidentifiable_velocity #linear_velocity
+  - override /logger:
+      - csv
+      - wandb
+  - override /trainer: gpu
+name: "linear_tcg_gfn"
+
+seed: 0
+
+datamodule:
+  batch_size: 500 #500
+  T: 2
+  p: 5 #20
+  vars_to_deidentify: [0]
+  sparsity: 0.85 #0.95
+  system: "linear"
+  sigma: 0
+  seed: 13
+
+model:
+  env_batch_size: 1024
+  eval_batch_size: 1000
+  full_posterior_eval: False
+  uniform_backwards: True
+  debug_use_shd_energy: False
+  analytic_use_simple_mse_energy: True
+  loss_fn: "detailed_balance"
+  alpha: 0
+  temperature: 0.00001
+  temper_period: 5
+  prior_lambda: 15
+  beta: 0.01
+  confidence: 0.0
+  hidden_dim: 128
+  embed_dim: 64 # used for transformer architecture
+  gfn_freq: 1
+  energy_freq: 1
+  pretraining_epochs: 0
+  lr: 1e-4
+  hyper: "mlp"
+  bias: True
+
+trainer:
+  max_epochs: 500
+  min_epochs: 500
+  check_val_every_n_epoch: 5
+
+logger:
+  wandb:
+    tags: ["analytic", "per-vs-full", "gfn", "${name}", "v10"]

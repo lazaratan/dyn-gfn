@@ -1,0 +1,24 @@
+_target_: src.models.node_module.HyperNodeLitModule
+lr: 0.001
+l1_reg: 0.0
+l2_reg: 0.0
+
+# Deep Ensemble + hyper-net hparams
+hyper: "mlp"
+n_ens: 10
+alpha: 1.0
+k_hidden: 5
+
+# proximal_lambda can also be "adaptive"
+# proximal_lambda: 0.1
+
+proximal_lambda: 0.0001
+optimizer: "adam"
+gamma: 0.999
+
+dims:
+  - 12
+  - 1
+
+bias: True
+time_invariant: True

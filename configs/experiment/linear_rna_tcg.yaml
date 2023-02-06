@@ -1,0 +1,53 @@
+# @package _global_
+#
+# to execute this experiment run:
+# python train.py experiment=tcg
+
+defaults:
+  - override /model: linear_tcg
+  - override /datamodule: rna_velocity #linear_unidentifiable_velocity
+  - override /logger:
+      - csv
+      - wandb
+  - override /trainer: gpu
+name: "linear_rna_tcg_gfn"
+
+seed: 0
+
+datamodule:
+  batch_size: 500
+
+# best
+model:
+  env_batch_size: 1024
+  eval_batch_size: 5000
+  full_posterior_eval: False
+  uniform_backwards: True
+  debug_use_shd_energy: False
+  analytic_use_simple_mse_energy: True
+  loss_fn: "detailed_balance"
+  alpha: 0
+  temperature: 0.01
+  temper_period: 5
+  w_mse: 10 # 0 <= w_mse <= 1
+  w_sparse: 20
+  prior_lambda: 100
+  beta: 0.01
+  confidence: 0.0
+  hidden_dim: 128
+  embed_dim: 64 # used for transformer architecture
+  gfn_freq: 1
+  energy_freq: 1
+  pretraining_epochs: 0
+  lr: 1e-4
+  hyper: "mlp"
+  bias: True
+
+trainer:
+  max_epochs: 1000
+  min_epochs: 1000
+  check_val_every_n_epoch: 5
+
+logger:
+  wandb:
+    tags: ["analytic", "rna", "full-graph", "gfn", "${name}", "v14"]

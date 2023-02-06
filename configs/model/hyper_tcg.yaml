@@ -1,0 +1,19 @@
+_target_: src.models.parallel_energy_gfn_module.ParallelHyperTrainableCausalGraphGFlowNetModule
+
+env_batch_size: 64
+eval_batch_size: 5000
+uniform_backwards: False
+hidden_dim: 64
+embed_dim: 128
+w_mse: 1.0
+lr: 0.001
+full_posterior_eval: False
+energy_freq: 10
+loss_fn: "detailed_balance"
+arch: "mlp" # doptions - ['mlp', 'transformer']
+hyper: "mlp" # 'mlp', 'gnn', 'invariant'
+confidence: 0.0
+
+dims:
+  - 12
+  - 1

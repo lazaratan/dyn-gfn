@@ -1,0 +1,16 @@
+_target_: src.datamodules.simulated_datamodule.UnidentifiableSimulatedDataModule
+
+data_dir: ${data_dir} # data_dir is specified in config.yaml
+system: "linear"
+train_val_test_split: [800, 100, 100]
+sigma: 0.0
+burn_in: 0
+batch_size: 512
+num_workers: 0
+pin_memory: False
+p: 10
+sparsity: 0.5
+#system_kwargs: { "F": 5.0 }
+# Must be integers in range [0, p-(len(vars_to_deidentify) - 1)]
+vars_to_deidentify: [0, 1, 0]
+seed: 0

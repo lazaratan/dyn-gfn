@@ -1,0 +1,53 @@
+# This workflow will run precommit and commit new files on error
+#
+name: pre-commit
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.6.0
+        with:
+          access_token: ${{ github.token }}
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          ref: ${{ github.head_ref }}
+
+      - name: Setup python
+        uses: actions/setup-python@v3
+
+      - name: Cache pre-commit
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pre-commit
+          key: pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}-
+
+      - name: Run pre-commit
+        id: precommit
+        uses: pre-commit/action@v2.0.3
+        continue-on-error: true
+
+      - name: Commit files
+        if: steps.precommit.outcome == 'failure'
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: pre-commit
+
+      - name: Push changes
+        if: steps.precommit.outcome == 'failure'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+
+      - name: Check pre-commit
+        if: steps.precommit.outcome == 'failure'
+        uses: pre-commit/action@v2.0.0

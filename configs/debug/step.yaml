@@ -1,0 +1,12 @@
+# @package _global_
+
+# runs 1 train, 1 validation and 1 test step
+
+defaults:
+  - default.yaml
+
+trainer:
+  fast_dev_run: true
+
+dataset:
+  train_test_val_split: [1, 1, 1]

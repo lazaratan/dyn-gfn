@@ -1,0 +1,14 @@
+_target_: src.datamodules.simulated_datamodule.SimulatedDataModule
+
+data_dir: ${data_dir} # data_dir is specified in config.yaml
+system: "lorenz"
+train_val_test_split: [160, 20, 20]
+batch_size: 10
+num_workers: 0
+pin_memory: False
+system_kwargs: { "F": 5.0 }
+p: 10
+T: 100
+sigma: 0.5
+burn_in: 1000
+sd: 0.1

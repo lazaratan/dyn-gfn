@@ -1,0 +1,11 @@
+# @package _global_
+
+# runs with execution time profiling
+
+defaults:
+  - default.yaml
+
+trainer:
+  profiler: "simple"
+  # profiler: "advanced"
+  # profiler: "pytorch"

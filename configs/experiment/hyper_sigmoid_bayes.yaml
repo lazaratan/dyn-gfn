@@ -1,0 +1,51 @@
+# @package _global_
+#
+# to execute this experiment run:
+# python train.py experiment=linear_bayes
+
+defaults:
+  - override /model: bayesian_velocity
+  - override /datamodule: linear_unidentifiable_velocity.yaml
+  - override /logger:
+      - wandb
+      - csv
+  - override /trainer: gpu
+name: "hyper_sigmoid_gVI"
+
+seed: 13
+
+datamodule:
+  batch_size: 100 #500
+  T: 2
+  p: 20
+  vars_to_deidentify: [0, 1, 2]
+  sparsity: 0.9 # 0.9 --> 1024 Nodes for p=20 and [0,1,2]
+  system: "sigmoid_linear"
+  sigma: 0
+  burn_in: 1
+  seed: 13
+
+# best
+model:
+  lr: 1e-4
+  alpha: 1
+  l1_reg: 0.001
+  kl_reg: 0.1
+  svgd_reg: 0
+  temperature: 0.01
+  n_ens: 2000
+  eval_batch_size: 2000
+  k_hidden: 20
+  hyper: "mlp" #["mlp", "invariant", "per_graph", "deepset"]
+  hyper_hidden_dim: [64, 64, 64]
+  bias: True
+
+  optimizer: "adam"
+
+trainer:
+  max_epochs: 1000
+  check_val_every_n_epoch: 5
+
+logger:
+  wandb:
+    tags: ["kl", "hyper", "sigmoid", "bayes", "${name}", "v_final_3"]

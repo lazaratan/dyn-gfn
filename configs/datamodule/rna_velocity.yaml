@@ -1,0 +1,9 @@
+_target_: src.datamodules.rna_velocity_datamodule.RNAVelocityDataModule
+
+data_dir: ${data_dir} # data_dir is specified in config.yaml
+train_val_test_split: [0.8, 0.1, 0.1]
+p: 5
+batch_size: 512
+num_workers: 0
+pin_memory: False
+seed: 0

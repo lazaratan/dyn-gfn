@@ -1,0 +1,66 @@
+# @package _global_
+#
+# to execute this experiment run:
+# python train.py experiment=tcg
+
+defaults:
+  - override /model: per_node_hyper_tcg #hyper_tcg
+  - override /datamodule: linear_unidentifiable_velocity #linear_velocity
+  - override /logger:
+      - csv
+      - wandb
+  - override /trainer: gpu
+name: "hyper_per_node_sigmoid_tcg_gfn"
+
+seed: 0
+# for experiments seed=13,29,42,73,91
+
+datamodule:
+  batch_size: 100 #500
+  T: 2
+  p: 20
+  vars_to_deidentify: [0, 1, 2]
+  sparsity: 0.9 # 0.9 --> 1024 Nodes for p=20 and [0,1,2]
+  system: "sigmoid_linear"
+  sigma: 0
+  burn_in: 1
+  seed: 13
+
+# best
+model:
+  env_batch_size: 256
+  eval_batch_size: 2500
+  full_posterior_eval: False
+  uniform_backwards: True
+  debug_use_shd_energy: False
+  analytic_use_simple_mse_energy: False
+  per_node_gfn: True
+  loss_fn: "detailed_balance"
+  n_steps: 0
+  arch: "mlp"
+  alpha: 0
+  temperature: 0.005
+  temper_period: 0
+  prior_lambda: 300 # 10
+  beta: 0.01
+  confidence: 0.0
+  hidden_dim: 128
+  embed_dim: 64 # used for transformer architecture
+  gfn_freq: 3 # may depend on batch-size
+  energy_freq: 1 # may depend on batch-size
+  load_pretrain: True
+  pretraining_epochs: 0
+  lr: 1e-5
+  hyper: "per_node_mlp"
+  hyper_hidden_dim: [64, 64, 64] # currently not getting passed!
+  bias: True
+  path: "/h/lazar/structure_recovery/logs/experiments/models/per_node_sigmoid_tcg/last.ckpt"
+
+trainer:
+  max_epochs: 1000
+  min_epochs: 1000
+  check_val_every_n_epoch: 5
+
+logger:
+  wandb:
+    tags: ["hyper", "sigmoid", "per-node", "gfn", "${name}", "v_hyp_fix"]
