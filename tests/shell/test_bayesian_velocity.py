@@ -16,6 +16,8 @@ def test_bayesian_velocity_basic():
         "logger=csv",
         "model.l1_reg=0.001",
         "model.kl_reg=0.001",
+        "model.n_ens=100",
+        "model.eval_batch_size=100",
         "trainer=cpu",
     ]
     run_command(command)
@@ -26,6 +28,8 @@ def test_bayesian_velocity_svgd():
     command = [
         "train.py",
         "experiment=linear_svgd",
+        "model.n_ens=100",
+        "model.eval_batch_size=100",
         "datamodule.sparsity=0.99",
         "++trainer.fast_dev_run=true",
         "logger=csv",

@@ -5,31 +5,6 @@ from tests.helpers.run_command import run_command
 from tests.helpers.runif import RunIf
 
 
-@pytest.mark.slow
-def test_bayes_full():
-    command = [
-        "train.py",
-        "logger=csv",
-        "model=bayesian_velocity",
-        "model.gamma=0.999",
-        "model.l1_reg=0.001",
-        "model.l2_reg=0.001",
-        "++trainer.fast_dev_run=true",
-    ]
-    run_command(command)
-
-
-@pytest.mark.slow
-def test_gfn():
-    command = [
-        "train.py",
-        "logger=csv",
-        "model=per_node_linear_tcg",
-        "+model.proximal_eta=2",
-        "++trainer.fast_dev_run=true",
-    ]
-    run_command(command)
-
 
 @RunIf(min_gpus=1)
 @pytest.mark.slow

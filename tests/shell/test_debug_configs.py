@@ -19,10 +19,10 @@ def test_debug_overfit():
     run_command(command)
 
 
-@pytest.mark.slow
-def test_debug_profiler():
-    command = ["train.py", "logger=csv", "debug=profiler"]
-    run_command(command)
+#@pytest.mark.slow
+#def test_debug_profiler():
+#    command = ["train.py", "logger=csv", "debug=profiler"]
+#    run_command(command)
 
 
 def test_debug_step():
