@@ -67,5 +67,3 @@ def test_velocity_hyper(hyper):
         "++trainer.fast_dev_run=true",
     ]
     run_command(command)
-
-
