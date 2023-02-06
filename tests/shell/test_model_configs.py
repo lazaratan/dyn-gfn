@@ -118,7 +118,7 @@ def test_gfn_experiments(experiment):
 
 
 @pytest.mark.slow
-def test_gfn_graph_experiments():
+def test_gfn_graph_experiments_hyper():
     command = [
         "train.py",
         "logger=csv",
@@ -130,7 +130,7 @@ def test_gfn_graph_experiments():
 
 
 @pytest.mark.slow
-def test_gfn_graph_experiments():
+def test_gfn_graph_experiments_linear():
     command = [
         "train.py",
         "logger=csv",
@@ -141,7 +141,7 @@ def test_gfn_graph_experiments():
 
 
 @pytest.mark.slow
-def test_gfn_graph_experiments():
+def test_gfn_graph_experiments_shd():
     command = [
         "train.py",
         "logger=csv",

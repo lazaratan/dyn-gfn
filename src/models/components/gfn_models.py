@@ -6,11 +6,11 @@ class MLPFlow(nn.Module):
     """Simple MLP architecture for modelling the probabilities in a GFlowNet.
 
     A Flow function has between 1 and 3 heads: forward_log_prob, backward_log_pro, misc. Forward
-    parametrizes a distribution over possible forward actions. Backward parametrizes a
-    distribution over possible backwards actions. this can be replaced with a uniform backwards
-    strategy with the `uniform_backwards` flag. Misc is used by the detailed balance loss to
-    parameterize the flow. The MLP first transforms the state to a common representation then
-    applies up to three small heads to parameterize the flow.
+    parametrizes a distribution over possible forward actions. Backward parametrizes a distribution
+    over possible backwards actions. this can be replaced with a uniform backwards strategy with
+    the `uniform_backwards` flag. Misc is used by the detailed balance loss to parameterize the
+    flow. The MLP first transforms the state to a common representation then applies up to three
+    small heads to parameterize the flow.
     """
 
     def __init__(
@@ -82,13 +82,12 @@ class LinearTransformerFlow(nn.Module):
     """Linear Transformer architecture for modelling the probabilities in a GFlowNet.
 
     A Flow function has between 1 and 3 heads: forward_log_prob, backward_log_pro, misc. Forward
-    parametrizes a distribution over possible forward actions. Backward parametrizes a
-    distribution over possible backwards actions. this can be replaced with a uniform backwards
-    strategy with the `uniform_backwards` flag. Misc is used by the detailed balance loss to
-    parameterize the flow. The Linear Transformer first transforms the state to a common
-    representation then applies up to three small heads to parameterize the flow. The Transformer
-    architecture is invariant to the order of the inputs, i.e. since G is represented as a set of
-    edges.
+    parametrizes a distribution over possible forward actions. Backward parametrizes a distribution
+    over possible backwards actions. this can be replaced with a uniform backwards strategy with
+    the `uniform_backwards` flag. Misc is used by the detailed balance loss to parameterize the
+    flow. The Linear Transformer first transforms the state to a common representation then applies
+    up to three small heads to parameterize the flow. The Transformer architecture is invariant to
+    the order of the inputs, i.e. since G is represented as a set of edges.
     """
 
     def __init__(

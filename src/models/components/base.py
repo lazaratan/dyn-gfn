@@ -1,6 +1,7 @@
 """Implements dynamics models that support interventions on a known and prespecified set of
 targets."""
 
+import functools
 import math
 
 import numpy as np

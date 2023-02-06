@@ -70,7 +70,7 @@ def test_velocity_hyper(hyper):
 
 
 @pytest.mark.slow
-def test_velocity_hyper():
+def test_velocity_hyper_model_mlp():
     command = [
         "train.py",
         "experiment=velocity",
