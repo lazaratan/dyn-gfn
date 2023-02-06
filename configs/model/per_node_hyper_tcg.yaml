@@ -7,13 +7,11 @@ hidden_dim: 64
 embed_dim: 128
 lr: 0.001
 full_posterior_eval: False
-per_node_gfn: True
-energy_freq: 10
+energy_freq: 1
 loss_fn: "detailed_balance"
-arch: "mlp" # doptions - ['mlp', 'transformer']
 hyper: "mlp" # 'mlp', 'gnn', 'invariant'
 confidence: 0.0
-n_steps: -1
+n_steps: 0
 bias: true
 
 dims:

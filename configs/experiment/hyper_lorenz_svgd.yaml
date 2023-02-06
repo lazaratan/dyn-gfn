@@ -37,7 +37,7 @@ model:
   n_ens: 1024
   eval_batch_size: 1024
   k_hidden: 20
-  hyper: "mlp" #["linear", "mlp", "invariant", "per_graph", "deepset"]
+  hyper: "mlp" #["linear", "mlp", "invariant", "per_graph"]
   hyper_hidden_dim: [64, 64, 64]
   bias: True
   svgd: True

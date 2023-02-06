@@ -25,10 +25,6 @@ def test_gfn():
         "train.py",
         "logger=csv",
         "model=per_node_linear_tcg",
-        "model.gamma=0.999",
-        "model.l1_reg=0.001",
-        "model.l2_reg=0.001",
-        "model.proximal_lambda=0.001",
         "+model.proximal_eta=2",
         "++trainer.fast_dev_run=true",
     ]

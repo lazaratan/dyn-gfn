@@ -3,7 +3,7 @@
 # specify here default training configuration
 defaults:
   - _self_
-  - datamodule: lorenz.yaml
+  - datamodule: linear_unidentifiable.yaml
   - model: per_node_linear_tcg.yaml
   - callbacks: default.yaml
   - logger: many_loggers.yaml # set logger here or use command line (e.g. `python train.py logger=tensorboard`)

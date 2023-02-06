@@ -20,9 +20,9 @@ def test_cpu():
     command = [
         "train.py",
         "logger=csv",
-        "++trainer.max_epochs=1",
-        "++trainer.check_val_every_n_epoch=1",
-        "++trainer.gpus=0",
+        "trainer.max_epochs=1",
+        "trainer.check_val_every_n_epoch=1",
+        "trainer=cpu",
     ]
     run_command(command)
 
@@ -35,9 +35,9 @@ def test_gpu():
     command = [
         "train.py",
         "logger=csv",
-        "++trainer.max_epochs=1",
-        "++trainer.check_val_every_n_epoch=1",
-        "++trainer.gpus=1",
+        "trainer.max_epochs=1",
+        "trainer.check_val_every_n_epoch=1",
+        "trainer=gpu",
     ]
     run_command(command)
 
@@ -49,9 +49,9 @@ def test_mixed_precision():
     command = [
         "train.py",
         "logger=csv",
-        "++trainer.max_epochs=1",
-        "++trainer.check_val_every_n_epoch=1",
-        "++trainer.gpus=1",
+        "trainer.max_epochs=1",
+        "trainer.check_val_every_n_epoch=1",
+        "trainer=gpu",
         "++trainer.precision=16",
     ]
     run_command(command)
@@ -63,8 +63,8 @@ def test_double_validation_loop():
     command = [
         "train.py",
         "logger=csv",
-        "++trainer.max_epochs=1",
-        "++trainer.check_val_every_n_epoch=1",
-        "++trainer.val_check_interval=0.5",
+        "trainer.max_epochs=1",
+        "trainer.check_val_every_n_epoch=1",
+        "trainer.val_check_interval=0.5",
     ]
     run_command(command)

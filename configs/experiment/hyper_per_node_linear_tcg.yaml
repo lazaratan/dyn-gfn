@@ -41,7 +41,6 @@ model:
   beta: 0.01
   confidence: 0.0
   hidden_dim: 128
-  embed_dim: 64 # used for transformer architecture
   n_steps: 0 # always set to zero in this version
   gfn_freq: 3 # may depend on batch-size
   energy_freq: 1 # may depend on batch-size
@@ -49,7 +48,7 @@ model:
   pretraining_epochs: 0
   lr: 1e-5
   hyper: "per_node_mlp"
-  hyper_hidden_dim: [64, 64, 64] # currently not getting passed!
+  hyper_hidden_dim: [64, 64, 64] 
   bias: True
   path: "/h/lazar/structure_recovery/logs/experiments/models/per_node_linear_tcg/last.ckpt"
 

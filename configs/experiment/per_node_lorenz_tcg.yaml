@@ -40,11 +40,10 @@ model:
   alpha: 0
   temperature: 0.1
   temper_period: 5
-  prior_lambda: 1000 # or 1000
+  prior_lambda: 1000 
   beta: 0.01
   confidence: 0.0
   hidden_dim: 128
-  embed_dim: 64 # used for transformer architecture
   gfn_freq: 1
   energy_freq: 1
   pretraining_epochs: 0
