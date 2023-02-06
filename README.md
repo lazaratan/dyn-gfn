@@ -426,6 +426,3 @@ SOFTWARE.
 ```
 
 <br>
-<br>
-<br>
-<br>
