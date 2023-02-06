@@ -68,6 +68,7 @@ def test_gfn_experiments_linear(experiment):
         "train.py",
         "logger=csv",
         f"experiment={experiment}",
+        "trainer=cpu",
         "++trainer.fast_dev_run=true",
     ]
     run_command(command)
@@ -87,6 +88,7 @@ def test_gfn_graph_experiments_hyper(experiment):
         "train.py",
         "logger=csv",
         f"experiment={experiment}",
+        "trainer=cpu",
         "++trainer.fast_dev_run=true",
     ]
     run_command(command)
@@ -109,6 +111,7 @@ def test_bayes_drift_experiments_linear(experiment):
         "train.py",
         "logger=csv",
         f"experiment={experiment}",
+        "trainer=cpu",
         "++trainer.fast_dev_run=true",
     ]
     run_command(command)
@@ -131,6 +134,7 @@ def test_bayes_drift_experiments_hyper(experiment):
         "train.py",
         "logger=csv",
         f"experiment={experiment}",
+        "trainer=cpu",
         "++trainer.fast_dev_run=true",
     ]
     run_command(command)

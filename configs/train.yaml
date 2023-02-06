@@ -3,12 +3,12 @@
 # specify here default training configuration
 defaults:
   - _self_
-  - datamodule: linear_unidentifiable.yaml
+  - datamodule: linear_unidentifiable_velocity.yaml
   - model: per_node_linear_tcg.yaml
   - callbacks: default.yaml
   - logger: many_loggers.yaml # set logger here or use command line (e.g. `python train.py logger=tensorboard`)
     #- logger: wandb # set logger here or use command line (e.g. `python train.py logger=tensorboard`)
-  - trainer: cpu.yaml
+  - trainer: gpu.yaml
   - log_dir: default.yaml
   - launcher: mila_cluster.yaml
 

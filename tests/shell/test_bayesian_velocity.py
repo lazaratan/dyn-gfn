@@ -35,10 +35,10 @@ def test_bayesian_velocity_svgd():
 
 @pytest.mark.slow
 @pytest.mark.parametrize("hyper", ["mlp", "per_graph", "invariant"])
-def test_beaysian_velocity_hyper_cpu(hyper):
+def test_bayesian_velocity_hyper_cpu(hyper):
     command = [
         "train.py",
-        "experiment=linear_bayes",
+        "experiment=hyper_bayes",
         "logger=csv",
         "trainer=cpu",
         "model.l1_reg=0.001",
@@ -51,10 +51,10 @@ def test_beaysian_velocity_hyper_cpu(hyper):
 
 @pytest.mark.slow
 @pytest.mark.parametrize("hyper", ["mlp", "per_graph", "invariant"])
-def test_beaysian_velocity_svgd_hyper_cpu(hyper):
+def test_bayesian_velocity_svgd_hyper_cpu(hyper):
     command = [
         "train.py",
-        "experiment=linear_svgd",
+        "experiment=hyper_svgd",
         "logger=csv",
         "trainer=cpu",
         f"model.hyper={hyper}",
