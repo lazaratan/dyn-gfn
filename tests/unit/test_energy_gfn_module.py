@@ -6,13 +6,12 @@ from torch.utils.data import DataLoader
 
 from src.models.energy_gfn_module import (
     FixedGraphGFlowNetModule,
-    HyperGridGFlowNetModule,
     LinearTrainableCausalGraphGFlowNetModule,
 )
 
 
 @pytest.mark.parametrize(
-    "gfn_class", [FixedGraphGFlowNetModule, HyperGridGFlowNetModule]
+    "gfn_class", [FixedGraphGFlowNetModule, LinearTrainableCausalGraphGFlowNetModule]
 )
 def test_hypergrid_train_base(gfn_class):
     gfn = gfn_class()
