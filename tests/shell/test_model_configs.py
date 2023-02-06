@@ -43,7 +43,7 @@ def test_model_basic_gpu(model):
     command = [
         "train.py",
         "logger=csv",
-        "trainer.gpus=1",
+        "trainer=gpu",
         f"model={model}",
         "++trainer.fast_dev_run=true",
     ]

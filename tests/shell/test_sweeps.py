@@ -27,7 +27,7 @@ def test_default_sweep():
         "-m",
         "datamodule.batch_size=64,128",
         "model.lr=0.01,0.02",
-        "trainer=default",
+        "trainer=cpu",
         "++trainer.fast_dev_run=true",
     ]
     run_command(command)
@@ -41,7 +41,7 @@ def test_optuna_sweep():
         "train.py",
         "-m",
         "hparams_search=mnist_optuna",
-        "trainer=default",
+        "trainer=cpu",
         "++trainer.fast_dev_run=true",
     ]
     run_command(command)
