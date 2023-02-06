@@ -9,14 +9,14 @@
 # --------- pytorch --------- #
 torch>=1.11.0
 torchvision>=0.11.0
-pytorch-lightning>=1.5.10
-torchmetrics>=0.7.0
+pytorch-lightning==1.8.3
+torchmetrics==0.11.0
 # pytorch-fast-transformers>=0.4.0
 
 # --------- hydra --------- #
-hydra-core>=1.1.0
-hydra-colorlog>=1.1.0
-hydra-optuna-sweeper>=1.1.0
+hydra-core==1.2.0
+hydra-colorlog==1.2.0
+hydra-optuna-sweeper==1.2.0
 hydra-submitit-launcher
 
 # --------- loggers --------- #
