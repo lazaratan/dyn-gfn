@@ -8,7 +8,7 @@ defaults:
   - callbacks: default.yaml
   - logger: many_loggers.yaml # set logger here or use command line (e.g. `python train.py logger=tensorboard`)
     #- logger: wandb # set logger here or use command line (e.g. `python train.py logger=tensorboard`)
-  - trainer: gpu.yaml
+  - trainer: default.yaml
   - log_dir: default.yaml
   - launcher: mila_cluster.yaml
 
