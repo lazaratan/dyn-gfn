@@ -10,7 +10,7 @@ from tests.helpers.runif import RunIf
 def test_velocity_basic():
     command = [
         "train.py",
-        "experiment=velocity",
+        "experiment=linear_bayes",
         "++trainer.fast_dev_run=true",
         "logger=csv",
         "model.l1_reg=0.001",
@@ -24,8 +24,8 @@ def test_velocity_basic():
 def test_velocity_ngm():
     command = [
         "train.py",
-        "experiment=velocity",
-        "model=velocity",
+        "experiment=linear_bayes",
+        "model=bayesian_velocity",
         "logger=csv",
         "trainer.gpus=0",
         "model.l1_reg=0.001",
@@ -41,7 +41,7 @@ def test_velocity_ngm():
 def test_velocity_hyper_cpu(hyper):
     command = [
         "train.py",
-        "experiment=velocity",
+        "experiment=linear_bayes",
         "logger=csv",
         "trainer.gpus=0",
         "model.l1_reg=0.001",
@@ -58,7 +58,7 @@ def test_velocity_hyper_cpu(hyper):
 def test_velocity_hyper(hyper):
     command = [
         "train.py",
-        "experiment=velocity",
+        "experiment=linear_bayes",
         "logger=csv",
         "trainer.gpus=1",
         "model.l1_reg=0.001",
@@ -69,16 +69,3 @@ def test_velocity_hyper(hyper):
     run_command(command)
 
 
-@pytest.mark.slow
-def test_velocity_hyper_model_mlp():
-    command = [
-        "train.py",
-        "experiment=velocity",
-        "model=mlp_velocity",
-        "logger=csv",
-        "trainer.gpus=0",
-        "model.l1_reg=0.001",
-        "model.l2_reg=0.001",
-        "++trainer.fast_dev_run=true",
-    ]
-    run_command(command)

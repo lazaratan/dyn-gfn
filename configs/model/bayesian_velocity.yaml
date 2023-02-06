@@ -3,7 +3,7 @@ lr: 0.001
 l1_reg: 0.0
 l2_reg: 0.0
 
-# Deep Ensemble + hyper-net hparams
+# Ensemble + hyper-net hparams
 hyper: "mlp"
 n_ens: 10
 alpha: 1.0
