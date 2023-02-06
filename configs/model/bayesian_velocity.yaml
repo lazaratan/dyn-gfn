@@ -1,13 +1,16 @@
 _target_: src.models.velocity_module.HyperLitModule
-lr: 0.001
-l1_reg: 0.0
-l2_reg: 0.0
-
-# Ensemble + hyper-net hparams
-hyper: "mlp"
-n_ens: 10
-alpha: 1.0
+lr: 1e-4 # og 1e-4
+alpha: 1 # TRAIN: 2, TEST: alpha_t after training  (bs=100 -> 18.2208671582886)
+l1_reg: 0.0025 # og 0.001
+kl_reg: 0.01
+svgd_reg: 0
+temperature: 0.01
+n_ens: 100 # og 5000
+eval_batch_size: 100 # og 5000
 k_hidden: 5
+hyper: "mlp" #["mlp", "invariant", "per_graph"]
+hyper_hidden_dim: [64, 64, 64]
+bias: True
 
 # proximal_lambda can also be "adaptive"
 # proximal_lambda: 0.1

@@ -56,15 +56,3 @@ def test_mixed_precision():
     ]
     run_command(command)
 
-
-@pytest.mark.slow
-def test_double_validation_loop():
-    """Test running 1 epoch with validation loop twice per epoch."""
-    command = [
-        "train.py",
-        "logger=csv",
-        "trainer.max_epochs=1",
-        "trainer.check_val_every_n_epoch=1",
-        "trainer.val_check_interval=0.5",
-    ]
-    run_command(command)

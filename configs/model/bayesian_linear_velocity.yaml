@@ -5,9 +5,9 @@ l1_reg: 0.001
 kl_reg: 0.1
 svgd_reg: 0
 temperature: 0.01
-n_ens: 10
-eval_batch_size: 10
-k_hidden: 20
+n_ens: 100
+eval_batch_size: 100
+k_hidden: 5
 hyper: "linear" 
 hyper_hidden_dim: [64, 64, 64]
 bias: True
