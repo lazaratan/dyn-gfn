@@ -15,7 +15,7 @@
 </div>
 
 <img
-src="dyngfn.jpg"
+src="assets/dyngfn.jpg"
 title="DynGFN Oerview"
 style="display: inline-block; margin: 0 auto; max-width: 300px">
 
