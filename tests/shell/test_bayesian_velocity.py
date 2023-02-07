@@ -42,7 +42,6 @@ def test_bayesian_velocity_svgd():
     run_command(command)
 
 
-
 @pytest.mark.slow
 @pytest.mark.parametrize("hyper", ["mlp", "per_graph", "invariant"])
 def test_bayesian_velocity_hyper_cpu(hyper):
@@ -81,5 +80,3 @@ def test_bayesian_velocity_svgd_hyper_cpu(hyper):
         "++trainer.fast_dev_run=true",
     ]
     run_command(command)
-
-

@@ -23,7 +23,7 @@ style="display: inline-block; margin: 0 auto; max-width: 300px">
 
 Generative Flow Networks (GFlowNets) are an approach for learning generative models over discrete spaces. GFlowNets learn a stochastic policy $P_F(\\tau)$ to sequentially sample an object $\\mathbf{x}$ (e.g. a graph) from a discrete space $\\mathcal{X}$. We propose a general framework for cyclic causal discovery of dynamic systems and use GFlowNets to learn dynamic causal structure. See [this http link](https://arxiv.org/) for the preprint.
 
-DynGFN is method for learning cyclic causal structure of dynamic systems from observational time-series data. DynGFN consists of three components: (1) A graph sampler that samples graphical structure encoding the causal dependencies between variables, (2) A class of structural equation modules that models the functional relationships between the observed variables, indexed by parameters $\\theta$, and (3) A hyper-network architecture that outputs the parameters $\\theta$ of the structural equations as a function of the sampled graph, i.e. $\\theta = h\_{\phi}(G)$.
+DynGFN is method for learning cyclic causal structure of dynamic systems from observational time-series data. DynGFN consists of three components: (1) A graph sampler that samples graphical structure encoding the causal dependencies between variables, (2) A class of structural equation modules that models the functional relationships between the observed variables, indexed by parameters $\\theta$, and (3) A hyper-network architecture that outputs the parameters $\\theta$ of the structural equations as a function of the sampled graph, i.e. $\\theta = h\_{\\phi}(G)$.
 
 ## How to run
 

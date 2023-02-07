@@ -55,4 +55,3 @@ def test_mixed_precision():
         "++trainer.precision=16",
     ]
     run_command(command)
-

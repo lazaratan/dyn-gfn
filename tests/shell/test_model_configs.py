@@ -6,9 +6,7 @@ from tests.helpers.runif import RunIf
 
 
 @pytest.mark.slow
-@pytest.mark.parametrize(
-    "experiment", ["per_node_linear_tcg", "per_node_sigmoid_tcg"]
-)
+@pytest.mark.parametrize("experiment", ["per_node_linear_tcg", "per_node_sigmoid_tcg"])
 def test_gfn_experiments_linear(experiment):
     command = [
         "train.py",

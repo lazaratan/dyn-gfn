@@ -39,7 +39,7 @@ model:
   pretraining_epochs: 0
   lr: 5e-6
   hyper: "per_node_mlp"
-  hyper_hidden_dim: [64, 64, 64] 
+  hyper_hidden_dim: [64, 64, 64]
   bias: True
   path: "/h/lazar/structure_recovery/logs/experiments/models/per_node_rna_tcg/last.ckpt"
   test_mode: True
