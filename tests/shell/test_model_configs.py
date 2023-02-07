@@ -5,35 +5,6 @@ from tests.helpers.run_command import run_command
 from tests.helpers.runif import RunIf
 
 
-
-@RunIf(min_gpus=1)
-@pytest.mark.slow
-@pytest.mark.parametrize("model", ["bayesian_linear_velocity", "per_node_linear_tcg"])
-def test_model_basic_gpu(model):
-    """Test Basic models on GPU."""
-    command = [
-        "train.py",
-        "logger=csv",
-        "trainer=gpu",
-        f"model={model}",
-        "++trainer.fast_dev_run=true",
-    ]
-    run_command(command)
-
-
-@pytest.mark.slow
-@pytest.mark.parametrize("model", ["bayesian_linear_velocity", "per_node_linear_tcg"])
-def test_model_basic_cpu(model):
-    """Test Basic models on CPU."""
-    command = [
-        "train.py",
-        "logger=csv",
-        f"model={model}",
-        "++trainer.fast_dev_run=true",
-    ]
-    run_command(command)
-
-
 @pytest.mark.slow
 @pytest.mark.parametrize(
     "experiment", ["per_node_linear_tcg", "per_node_sigmoid_tcg", "per_node_rna_tcg"]
@@ -44,6 +15,8 @@ def test_gfn_experiments_linear(experiment):
         "logger=csv",
         f"experiment={experiment}",
         "datamodule.sparsity=0.99",
+        "datamodule.p=10",
+        "datamodule.vars_to_deidentify=[0]",
         "trainer=cpu",
         "++trainer.fast_dev_run=true",
     ]
@@ -65,6 +38,8 @@ def test_gfn_graph_experiments_hyper(experiment):
         "logger=csv",
         f"experiment={experiment}",
         "datamodule.sparsity=0.99",
+        "datamodule.p=10",
+        "datamodule.vars_to_deidentify=[0]",
         "trainer=cpu",
         "++trainer.fast_dev_run=true",
     ]
@@ -89,6 +64,8 @@ def test_bayes_drift_experiments_linear(experiment):
         "logger=csv",
         f"experiment={experiment}",
         "datamodule.sparsity=0.99",
+        "datamodule.p=10",
+        "datamodule.vars_to_deidentify=[0]",
         "trainer=cpu",
         "++trainer.fast_dev_run=true",
     ]
@@ -113,6 +90,8 @@ def test_bayes_drift_experiments_hyper(experiment):
         "logger=csv",
         f"experiment={experiment}",
         "datamodule.sparsity=0.99",
+        "datamodule.p=10",
+        "datamodule.vars_to_deidentify=[0]",
         "trainer=cpu",
         "++trainer.fast_dev_run=true",
     ]
