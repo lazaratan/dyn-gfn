@@ -69,7 +69,7 @@ def test_bayesian_velocity_hyper_cpu(hyper):
 def test_bayesian_velocity_svgd_hyper_cpu(hyper):
     command = [
         "train.py",
-        "experiment=_svgd",
+        "experiment=hyper_svgd",
         "logger=csv",
         "trainer=cpu",
         "model.n_ens=100",
