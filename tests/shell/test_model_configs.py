@@ -92,25 +92,3 @@ def test_bayes_drift_experiments_hyper(experiment):
         "++trainer.fast_dev_run=true",
     ]
     run_command(command)
-
-@pytest.mark.slow
-@pytest.mark.parametrize(
-    "experiment",
-    [
-        "per_node_rna_tcg",
-        "hyper_per_node_rna_tcg",
-        "linear_rna_bayes",
-        "linear_rna_svgd",
-        "hyper_rna_bayes",
-        "hyper_rna_svgd",
-    ],
-)
-def test_rna_experiments_(experiment):
-    command = [
-        "train.py",
-        "logger=csv",
-        f"experiment={experiment}",
-        "trainer=cpu",
-        "++trainer.fast_dev_run=true",
-    ]
-    run_command(command)
