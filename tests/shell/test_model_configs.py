@@ -7,7 +7,7 @@ from tests.helpers.runif import RunIf
 
 @pytest.mark.slow
 @pytest.mark.parametrize(
-    "experiment", ["per_node_linear_tcg", "per_node_sigmoid_tcg", "per_node_rna_tcg"]
+    "experiment", ["per_node_linear_tcg", "per_node_sigmoid_tcg"]
 )
 def test_gfn_experiments_linear(experiment):
     command = [
@@ -29,7 +29,6 @@ def test_gfn_experiments_linear(experiment):
     [
         "hyper_per_node_linear_tcg",
         "hyper_per_node_sigmoid_tcg",
-        "hyper_per_node_rna_tcg",
     ],
 )
 def test_gfn_graph_experiments_hyper(experiment):
@@ -40,6 +39,7 @@ def test_gfn_graph_experiments_hyper(experiment):
         "datamodule.sparsity=0.99",
         "datamodule.p=10",
         "datamodule.vars_to_deidentify=[0]",
+        "model.load_pretrain=False",
         "trainer=cpu",
         "++trainer.fast_dev_run=true",
     ]
@@ -54,8 +54,6 @@ def test_gfn_graph_experiments_hyper(experiment):
         "linear_svgd",
         "linear_sigmoid_bayes",
         "linear_sigmoid_svgd",
-        "linear_rna_bayes",
-        "linear_rna_svgd",
     ],
 )
 def test_bayes_drift_experiments_linear(experiment):
@@ -80,8 +78,6 @@ def test_bayes_drift_experiments_linear(experiment):
         "hyper_svgd",
         "hyper_sigmoid_bayes",
         "hyper_sigmoid_svgd",
-        "hyper_rna_bayes",
-        "hyper_rna_svgd",
     ],
 )
 def test_bayes_drift_experiments_hyper(experiment):
@@ -92,6 +88,28 @@ def test_bayes_drift_experiments_hyper(experiment):
         "datamodule.sparsity=0.99",
         "datamodule.p=10",
         "datamodule.vars_to_deidentify=[0]",
+        "trainer=cpu",
+        "++trainer.fast_dev_run=true",
+    ]
+    run_command(command)
+
+@pytest.mark.slow
+@pytest.mark.parametrize(
+    "experiment",
+    [
+        "per_node_rna_tcg",
+        "hyper_per_node_rna_tcg",
+        "linear_rna_bayes",
+        "linear_rna_svgd",
+        "hyper_rna_bayes",
+        "hyper_rna_svgd",
+    ],
+)
+def test_rna_experiments_(experiment):
+    command = [
+        "train.py",
+        "logger=csv",
+        f"experiment={experiment}",
         "trainer=cpu",
         "++trainer.fast_dev_run=true",
     ]

@@ -23,5 +23,4 @@ dims:
   - 12
   - 1
 
-bias: True
 time_invariant: True
