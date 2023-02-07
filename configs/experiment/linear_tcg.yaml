@@ -39,7 +39,6 @@ model:
   beta: 0.01
   confidence: 0.0
   hidden_dim: 128
-  embed_dim: 64 # used for transformer architecture
   gfn_freq: 1
   energy_freq: 1
   pretraining_epochs: 0
