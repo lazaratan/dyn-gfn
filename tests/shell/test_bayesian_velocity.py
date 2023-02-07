@@ -43,33 +43,43 @@ def test_bayesian_velocity_svgd():
 
 
 
-#@pytest.mark.slow
-#@pytest.mark.parametrize("hyper", ["mlp", "per_graph", "invariant"])
-#def test_bayesian_velocity_hyper_cpu(hyper):
-#    command = [
-#        "train.py",
-#        "experiment=hyper_bayes",
-#        "logger=csv",
-#        "trainer=cpu",
-#        "model.l1_reg=0.001",
-#        "model.kl_reg=0.001",
-#        f"model.hyper={hyper}",
-#        "++trainer.fast_dev_run=true",
-#    ]
-#    run_command(command)
+@pytest.mark.slow
+@pytest.mark.parametrize("hyper", ["mlp", "per_graph", "invariant"])
+def test_bayesian_velocity_hyper_cpu(hyper):
+    command = [
+        "train.py",
+        "experiment=hyper_bayes",
+        "logger=csv",
+        "trainer=cpu",
+        "model.n_ens=100",
+        "model.eval_batch_size=100",
+        "datamodule.sparsity=0.99",
+        "datamodule.p=10",
+        "datamodule.vars_to_deidentify=[0]",
+        "model.l1_reg=0.001",
+        "model.kl_reg=0.001",
+        f"model.hyper={hyper}",
+        "++trainer.fast_dev_run=true",
+    ]
+    run_command(command)
 
 
-#@pytest.mark.slow
-#@pytest.mark.parametrize("hyper", ["mlp", "per_graph", "invariant"])
-#def test_bayesian_velocity_svgd_hyper_cpu(hyper):
-#    command = [
-#        "train.py",
-#        "experiment=_svgd",
-#        "logger=csv",
-#        "trainer=cpu",
-#        f"model.hyper={hyper}",
-#        "++trainer.fast_dev_run=true",
-#    ]
-#    run_command(command)
+@pytest.mark.slow
+@pytest.mark.parametrize("hyper", ["mlp", "per_graph", "invariant"])
+def test_bayesian_velocity_svgd_hyper_cpu(hyper):
+    command = [
+        "train.py",
+        "experiment=_svgd",
+        "logger=csv",
+        "trainer=cpu",
+        "model.n_ens=100",
+        "model.eval_batch_size=100",
+        "datamodule.sparsity=0.99",
+        "datamodule.p=10",
+        "datamodule.vars_to_deidentify=[0]",
+        f"model.hyper={hyper}",
+        "++trainer.fast_dev_run=true",
+    ]
+    run_command(command)
 
 
