@@ -49,10 +49,10 @@ Train model with default configuration
 
 ```bash
 # train on CPU
-python train.py trainer.gpus=0
+python train.py
 
 # train on GPU
-python train.py trainer.gpus=1
+python train.py trainer=gpu
 ```
 
 Train model with chosen experiment configuration from [configs/experiment/](configs/experiment/)
