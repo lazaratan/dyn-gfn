@@ -45,12 +45,7 @@ def train(config: DictConfig) -> Optional[float]:
     datamodule: LightningDataModule = hydra.utils.instantiate(config.datamodule)
 
     # Init lightning model
-    if config.model["_target_"] == "src.models.velocity_module.TrueGraphLitModule":
-        log.info(f"Instantiating model <{config.model._target_}>")
-        model: LightningModule = hydra.utils.instantiate(
-            config.model, dm_conf=config.datamodule, GC=datamodule.GC, _recursive_=False
-        )
-    elif (
+    if (
         config.model["_target_"]
         == "src.models.parallel_energy_gfn_module.PerNodeParallelHyperTrainableCausalGraphGFlowNetModule"
     ):

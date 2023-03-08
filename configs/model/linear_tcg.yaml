@@ -9,7 +9,7 @@ lr: 0.001
 full_posterior_eval: False
 energy_freq: 10
 loss_fn: "detailed_balance"
-arch: "mlp" # doptions - ['mlp', 'transformer']
+arch: "mlp" # options - ['mlp', 'transformer']
 confidence: 0.0
 n_steps: 0
 bias: true
