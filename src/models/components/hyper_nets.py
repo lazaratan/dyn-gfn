@@ -218,9 +218,6 @@ class PerNodeHyperMLP(nn.Module):
         super().__init__()
         if hidden_dims is None:
             hidden_dims = [64, 64, 64]
-            # hidden_dims = [64, 64]
-            # hidden_dims = [1024, 512, 128, 64]
-            # hidden_dims = [1024, 1024, 1024, 64]
         self.dims = hidden_dims
         self.num_linear = num_linear
         self.input_features = input_features

@@ -138,6 +138,7 @@ class GraphLayerSVGD(Module):
         n_embed: int,
         alpha: float = 1.0,
         gamma: float = 1.0,
+        w_init_std: float = 1e-2,
         device=None,
         dtype=None,
     ) -> None:
@@ -148,6 +149,7 @@ class GraphLayerSVGD(Module):
         self.n_embed = n_embed
         self.alpha = alpha
         self.gamma = gamma
+        self.w_init_std = w_init_std
         self.t = 1
         self.alpha_t = 1
 
@@ -162,9 +164,9 @@ class GraphLayerSVGD(Module):
 
     def reset_parameters(self):
         torch.nn.init.normal_(
-            self.w, mean=0, std=1e-2
+            self.w, mean=0, std=self.w_init_std
         )  # std=1e-2 lin-sys lin-sol, lin-sys 1e-3 hyper-sol
-        torch.nn.init.normal_(self.v, mean=0, std=1e-2)  # std=1e-2 for linear sovler
+        torch.nn.init.normal_(self.v, mean=0, std=self.w_init_std)  # std=1e-2 for linear sovler
 
     def Z(self, eval_n_graphs=None):
         if eval_n_graphs is None:
@@ -175,7 +177,6 @@ class GraphLayerSVGD(Module):
     def forward(self, eval_n_graphs=None, test_mode=None):
         Z = self.Z(eval_n_graphs)
         if test_mode:
-            # G = torch.sigmoid(0.010959014554237987 * Z)
             return Z
         if eval_n_graphs is None:
             return Z

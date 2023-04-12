@@ -158,7 +158,12 @@ class VelocityLitModule(NODELitModule):
                 Z = self.net.get_structure(
                     eval_n_graphs=self.hparams.eval_batch_size, test_mode=True
                 )
-                kl_div = kl_distance_true_sigmoid(Z, true_graphs, self.hparams.alpha)
+                #print("\b CHECK \n")
+                #print(Z)
+                print("\n alpha_t:", self.net.graphs.alpha_t, "\n")
+                #kl_div = kl_distance_true_sigmoid(Z, true_graphs, self.hparams.alpha)
+                #kl_div = kl_distance_true_sigmoid(Z, true_graphs, self.net.graphs.alpha_t)
+                kl_div = kl_distance_true_sigmoid(Z, true_graphs, 1e8)
                 self.log(f"{prefix}/kl_div", kl_div, on_step=False, on_epoch=True)
                 self.log(
                     f"{prefix}/alpha", self.hparams.alpha, on_step=False, on_epoch=True
@@ -238,6 +243,7 @@ class LinearLitModule(VelocityLitModule):
             k_hidden=k_hidden,
             alpha=alpha,
             gamma=svgd_gamma,
+            w_init_std=1e-2,
             deepens=deepens,
             hyper=hyper,
             bias=bias,
@@ -352,6 +358,7 @@ class HyperLitModule(VelocityLitModule):
             k_hidden=k_hidden,
             alpha=alpha,
             gamma=svgd_gamma,
+            w_init_std=1e-3,
             deepens=deepens,
             hyper=hyper,
             bias=bias,

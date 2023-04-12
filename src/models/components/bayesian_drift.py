@@ -23,6 +23,7 @@ class BayesianDrift(Intervenable):
         k_hidden=1,
         alpha=0.1,
         gamma=0,
+        w_init_std=1e-2,
         deepens=None,
         hyper=None,
         bias=True,
@@ -46,7 +47,7 @@ class BayesianDrift(Intervenable):
         if ~self.deepens and self.gamma == 0:
             self.graphs = GraphLayerVI(n_ens, dims[0], k_hidden, alpha)
         elif ~self.deepens and self.gamma != 0:
-            self.graphs = GraphLayerSVGD(n_ens, dims[0], k_hidden, alpha, gamma)
+            self.graphs = GraphLayerSVGD(n_ens, dims[0], k_hidden, alpha, gamma, w_init_std)
         else:
             self.graphs = GraphLayer(n_ens, dims[0], k_hidden, alpha)
 
@@ -132,6 +133,7 @@ class LinearBayesianDrift(BayesianDrift):
         k_hidden=1,
         alpha=0.1,
         gamma=0,
+        w_init_std=1e-2,
         deepens=None,
         hyper=None,
         bias=True,
@@ -144,6 +146,7 @@ class LinearBayesianDrift(BayesianDrift):
             k_hidden=k_hidden,
             alpha=alpha,
             gamma=gamma,
+            w_init_std=1e-2,
             deepens=deepens,
             hyper=hyper,
             bias=bias,
