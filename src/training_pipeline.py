@@ -64,7 +64,6 @@ def train(config: DictConfig) -> Optional[float]:
             pretrained_dict = {
                 k: v for k, v in pretrained_dict.items() if k in model_dict
             }
-            # print(pretrained_dict.keys())
             model_dict.update(pretrained_dict)
             model.load_state_dict(model_dict)
         else:
