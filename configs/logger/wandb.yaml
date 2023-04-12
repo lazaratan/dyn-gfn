@@ -2,7 +2,7 @@
 
 wandb:
   _target_: pytorch_lightning.loggers.wandb.WandbLogger
-  project: "structure-recovery"
+  project: "dyn-gfn"
   # name: ${name}
   save_dir: "."
   offline: False # set True to store all logs only locally

@@ -1,6 +1,6 @@
 _target_: pytorch_lightning.Trainer
 
-min_epochs: 500
+min_epochs: 1000
 max_epochs: 1000
 check_val_every_n_epoch: 50
 

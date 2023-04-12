@@ -1,0 +1,46 @@
+# @package _global_
+#
+# to execute this experiment run:
+# python train.py experiment=linear_bayes
+
+defaults:
+  - override /model: bayesian_velocity
+  - override /datamodule: rna_velocity.yaml
+  - override /logger:
+      - wandb
+      - csv
+  - override /trainer: gpu
+name: "hyper_rna_svgd"
+
+seed: 0
+
+datamodule:
+  batch_size: 500
+
+# best
+model:
+  lr: 1e-4
+  alpha: 0.01
+  svgd_reg: 0 # 1e5
+  l1_reg: 0.1 # 1e-1
+  l2_reg: 0
+  kl_reg: 0 # 1e-5
+  svgd_gamma: 3000 # -1 to set to med
+  temperature: 0.01
+  n_ens: 1000
+  eval_batch_size: 1000
+  k_hidden: 5
+  hyper: "mlp" #["linear", "mlp", "invariant", "per_graph"]
+  hyper_hidden_dim: [64, 64, 64]
+  bias: True
+  svgd: True
+
+  optimizer: "adam"
+
+trainer:
+  max_epochs: 1000
+  check_val_every_n_epoch: 5
+
+logger:
+  wandb:
+    tags: ["kl", "hyper", "rna", "svgd", "${name}", "v_final_3"]

@@ -4,22 +4,18 @@
 # python train.py experiment=linear_bayes
 
 defaults:
-  - override /model: bayesian_velocity
-  - override /datamodule: unidentifiable_velocity.yaml
+  - override /model: bayesian_linear_velocity
+  - override /datamodule: rna_velocity.yaml
   - override /logger:
       - wandb
       - csv
   - override /trainer: gpu
-name: "lorenz_svgd"
+name: "linear_rna_svgd"
 
-seed: 13
+seed: 0
 
 datamodule:
-  batch_size: 100 #500
-  p: 20 #20
-  vars_to_deidentify: [0, 1]
-  system: "lorenz"
-  system_kwargs: { "F": 5.0 } # for lorenz
+  batch_size: 500
 
 # best
 model:
@@ -30,10 +26,10 @@ model:
   l2_reg: 0
   kl_reg: 0 # 1e-5
   svgd_gamma: 3000 # -1 to set to med
-  temperature: 0.1
-  n_ens: 1024
-  eval_batch_size: 1024
-  k_hidden: 20
+  temperature: 0.05
+  n_ens: 1000
+  eval_batch_size: 1000
+  k_hidden: 5
   hyper: "linear"
   hyper_hidden_dim: [64, 64, 64]
   bias: True
@@ -47,4 +43,4 @@ trainer:
 
 logger:
   wandb:
-    tags: ["analytic", "lorenz", "svgd", "${name}", "v12"]
+    tags: ["kl", "analytic", "rna", "svgd", "${name}", "v_final_3"]

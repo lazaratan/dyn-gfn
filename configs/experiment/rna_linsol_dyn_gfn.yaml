@@ -4,53 +4,43 @@
 # python train.py experiment=tcg
 
 defaults:
-  - override /model: per_node_linear_tcg #per_node_linear_tcg
-  - override /datamodule: unidentifiable_velocity #linear_velocity
+  - override /model: per_node_linear_tcg #hyper_tcg
+  - override /datamodule: rna_velocity #linear_velocity
   - override /logger:
       - csv
       - wandb
   - override /trainer: gpu
-name: "per_node_lorenz_tcg_gfn"
+name: "per_node_rna_tcg_gfn"
 
 seed: 0
 
 datamodule:
-  batch_size: 100 #500
-  p: 20 #20
-  vars_to_deidentify: [0]
-  system: "lorenz"
-  system_kwargs: { "F": 1.0 } # for lorenz
-  T: 100
-  train_val_test_split: [32, 2, 2]
-  sigma: 0.0
-  sd: 0.0
-  delta_t: 0.1
-  burn_in: 1000
-  seed: 13
+  batch_size: 500
 
 # best
 model:
   env_batch_size: 1024
-  eval_batch_size: 5000
+  eval_batch_size: 1000
   full_posterior_eval: False
   uniform_backwards: True
   debug_use_shd_energy: False
   analytic_use_simple_mse_energy: True
+  analytic_use_bayesian_mse_energy: False
   loss_fn: "detailed_balance"
   alpha: 0
-  temperature: 0.1
+  temperature: 0.01
   temper_period: 5
-  prior_lambda: 1000
+  prior_lambda: 45
   beta: 0.01
   confidence: 0.0
   hidden_dim: 128
   gfn_freq: 1
   energy_freq: 1
   pretraining_epochs: 0
-  lr: 1e-5
+  lr: 5e-5
   hyper: "mlp"
-  hyper_hidden_dim: [64]
   bias: True
+  test_mode: False
 
 trainer:
   max_epochs: 1000
@@ -59,4 +49,4 @@ trainer:
 
 logger:
   wandb:
-    tags: ["analytic", "lorenz", "per-node", "gfn", "${name}", "v14"]
+    tags: ["kl", "analytic", "rna", "per-node", "gfn", "${name}", "v_final_3"]

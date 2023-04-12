@@ -5,36 +5,29 @@
 
 defaults:
   - override /model: bayesian_velocity
-  - override /datamodule: linear_unidentifiable_velocity.yaml
+  - override /datamodule: rna_velocity.yaml
   - override /logger:
       - wandb
       - csv
   - override /trainer: gpu
-name: "hyper_gVI"
+name: "hyper_rna_gVI"
 
-seed: 13
+seed: 0
 
 datamodule:
   batch_size: 100
-  p: 20
-  vars_to_deidentify: [0, 1, 2]
-  sigma: 0.0
-  sparsity: 0.9
-  system: "linear"
-  T: 2
-  seed: 13
 
 # best
 model:
-  lr: 1e-4 # og 1e-4
-  alpha: 2 
-  l1_reg: 0.0025 # og 0.001
-  kl_reg: 0.1 # 0.01
+  lr: 1e-5
+  alpha: 2
+  l1_reg: 0.0005
+  kl_reg: 0.001
   svgd_reg: 0
-  temperature: 0.01
-  n_ens: 2000 # og 5000
-  eval_batch_size: 2000 # og 5000
-  k_hidden: 20
+  temperature: 0.1
+  n_ens: 1000
+  eval_batch_size: 1000
+  k_hidden: 5
   hyper: "mlp" #["mlp", "invariant", "per_graph"]
   hyper_hidden_dim: [64, 64, 64]
   bias: True
@@ -47,4 +40,4 @@ trainer:
 
 logger:
   wandb:
-    tags: ["kl", "hyper", "linear", "bayes", "${name}", "v_final_3"]
+    tags: ["kl", "hyper", "rna", "bayes", "${name}", "v_final_3"]

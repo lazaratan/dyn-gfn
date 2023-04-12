@@ -27,7 +27,7 @@ datamodule:
 # best
 model:
   lr: 2.5e-3
-  alpha: 1e-4 # TRAIN (1e-4) TEST final alpha_t: (bs=500 -> 0.010959014554237987) (bs=100 -> 0.02191346617949794)
+  alpha: 1e-4
   svgd_reg: 0 # 1e5
   l1_reg: 500 # 1e-1
   l2_reg: 0

@@ -10,37 +10,34 @@ defaults:
       - wandb
       - csv
   - override /trainer: gpu
-name: "linear_svgd_2"
+name: "linear_sigmoid_gVI"
 
 seed: 13
 
 datamodule:
-  batch_size: 500
+  batch_size: 100 #500
+  T: 2
   p: 20
   vars_to_deidentify: [0, 1, 2]
-  sigma: 0.0
-  sparsity: 0.9
-  system: "linear"
-  T: 2
+  sparsity: 0.9 # 0.9 --> 1024 Nodes for p=20 and [0,1,2]
+  system: "sigmoid_linear"
+  sigma: 0
+  burn_in: 1
   seed: 13
 
-# best
 model:
-  lr: 2.5e-3
-  alpha: 1e-4 # TRAIN (1e-4) TEST final alpha_t: (bs=500 -> 0.010959014554237987) (bs=100 -> 0.02191346617949794)
-  svgd_reg: 0 # 1e5
-  l1_reg: 500 # 1e-1
-  l2_reg: 0
-  kl_reg: 0 # 1e-5
-  svgd_gamma: 3000 # -1 to set to med
+  lr: 5e-5
+  alpha: 2
+  l1_reg: 0.001
+  kl_reg: 0.1
+  svgd_reg: 0
   temperature: 0.01
-  n_ens: 1024
-  eval_batch_size: 1024
+  n_ens: 5000
+  eval_batch_size: 5000
   k_hidden: 20
   hyper: "linear"
   hyper_hidden_dim: [64, 64, 64]
   bias: True
-  svgd: True
 
   optimizer: "adam"
 
@@ -50,4 +47,4 @@ trainer:
 
 logger:
   wandb:
-    tags: ["kl", "analytic", "linear", "svgd", "${name}", "v_1"]
+    tags: ["kl", "analytic", "sigmoid", "bayes", "${name}", "v_final_3"]
