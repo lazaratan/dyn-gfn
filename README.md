@@ -29,7 +29,7 @@ If you find this code useful in your research, please cite the following paper (
 
 <details>
 <summary>
-L. Atanackovic, A, Tong, B. Wang, L.J. Lee, Y. Bengio, J. Hartford. DynGFN: Towards Bayesian Inference of Gene Regulatory Networks with GFlowNets, NeurIPS 2023.
+L. Atanackovic, A. Tong, B. Wang, L.J. Lee, Y. Bengio, J. Hartford. DynGFN: Towards Bayesian Inference of Gene Regulatory Networks with GFlowNets, NeurIPS 2023.
 </summary>
 
 ```bibtex
