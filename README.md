@@ -21,9 +21,25 @@ style="display: inline-block; margin: 0 auto; max-width: 300px">
 
 ## Description
 
-Generative Flow Networks (GFlowNets) are an approach for learning generative models over discrete spaces. GFlowNets learn a stochastic policy $P_F(\\tau)$ to sequentially sample an object $\\mathbf{x}$ (e.g. a graph) from a discrete space $\\mathcal{X}$. We propose a general framework for cyclic causal discovery of dynamic systems and use GFlowNets to learn dynamic causal structure. See [this http link](https://arxiv.org/abs/2302.04178) for the preprint.
+Generative Flow Networks (GFlowNets) are an approach for learning generative models over discrete spaces. GFlowNets learn a stochastic policy $P_F(\\tau)$ to sequentially sample an object $\\mathbf{x}$ (e.g. a graph) from a discrete space $\\mathcal{X}$. We propose a general framework for cyclic causal discovery of dynamic systems and use GFlowNets to learn dynamic causal structure. See [this http link](https://arxiv.org/abs/2302.04178) for the paper.
 
 DynGFN is method for learning cyclic causal structure of dynamic systems from observational dynamic data. DynGFN consists of three components: (1) A graph sampler that samples graphical structure encoding the causal dependencies between variables, (2) A class of structural equation modules that models the functional relationships between the observed variables, indexed by parameters $\\theta$, and (3) A hyper-network architecture that outputs the parameters $\\theta$ of the structural equations as a function of the sampled graph, i.e. $\\theta = h\_{\\phi}(G)$.
+
+If you find this code useful in your research, please cite the following paper (expand for BibTeX):
+
+<details>
+<summary>
+L. Atanackovic, A, Tong, B. Wang, L.J. Lee, Y. Bengio, J. Hartford. DynGFN: Towards Bayesian Inference of Gene Regulatory Networks with GFlowNets, NeurIPS 2023.
+</summary>
+
+```bibtex
+@article{atanackovic2023dyngfn,
+  title={DynGFN: Towards Bayesian Inference of Gene Regulatory Networks with GFlowNets},
+  author={Atanackovic, Lazar and Tong, Alexander and Wang, Bo and Lee, Leo J and Bengio, Yoshua and Hartford, Jason},
+  journal={arXiv preprint arXiv:2302.04178},
+  year={2023}
+}
+```
 
 ## How to run
 
