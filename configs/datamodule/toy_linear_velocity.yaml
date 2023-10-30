@@ -1,0 +1,11 @@
+_target_: src.datamodules.simulated_datamodule.SimulatedVelocityDataModule
+
+data_dir: ${data_dir} # data_dir is specified in config.yaml
+system: "toy_dag_linear"
+p: 3
+sigma: 0.5
+burn_in: 0
+train_val_test_split: [250, 50, 50]
+batch_size: 100
+num_workers: 0
+pin_memory: False

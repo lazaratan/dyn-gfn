@@ -1044,6 +1044,22 @@ class PerNodeParallelTrainableCausalGraphGFlowNetModule(ParallelEnergyGFNModule)
             print(optimal_graphs.mean(0))
             print("----------")
             print(self.energy_model(graphs, batch)[:10])
+            # for toy example
+            if self.hparams.analytic_use_simple_mse_energy and self.n_dim == 3:
+                w = self.energy_model.A_est.cpu().detach()
+                w_thresh = w.mean(0).squeeze()
+                #w_thresh[w_thresh.abs() < 1e-3] = 0.0
+                print("----------")
+                print("Estimated weights")
+                print("----------")
+                print(w_thresh)
+                if prefix == "test":
+                    if GC[0].cpu().detach().numpy().sum() == 4:
+                        #torch.save(w_thresh, '/home/mila/l/lazar.atanackovic/dyn-gfn/examples/dyn_gfn_A_est/A_cyc_1024_mean.csv')
+                        np.savetxt('/home/mila/l/lazar.atanackovic/dyn-gfn/examples/dyn_gfn_A_est/A_cyc_1024_mean.csv', w_thresh.numpy(), delimiter=",")
+                    if GC[0].cpu().detach().numpy().sum() == 2:
+                        #torch.save(w_thresh, '/home/mila/l/lazar.atanackovic/dyn-gfn/examples/dyn_gfn_A_est/A_dag_1024_mean.csv')
+                        np.savetxt('/home/mila/l/lazar.atanackovic/dyn-gfn/examples/dyn_gfn_A_est/A_dag_1024_mean.csv', w_thresh.numpy(), delimiter=",")
         if not self.hparams.debug_use_shd_energy:
             with torch.no_grad():
                 print(self.energy_model.likelihood(graphs, batch)[:10])

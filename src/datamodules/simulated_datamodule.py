@@ -527,6 +527,8 @@ class SimulatedDataModule(LightningDataModule):
 
     SIMULATORS = {
         "linear": simulate_linear,
+        "toy_dag_linear": simulate_linear,
+        "toy_cyc_linear": simulate_linear,
         "sigmoid_linear": simulate_sigmoid_linear,
         "lorenz": simulate_lorenz_96,
         # "lotka": simulate_lotkavolterra,
@@ -810,6 +812,8 @@ class UnidentifiableSimulatedDataModule(SimulatedDataModule):
 class SimulatedVelocityDataModule(SimulatedDataModule):
     DRIFT_FUNCTIONS = {
         "linear": linear,
+        "toy_dag_linear": linear,
+        "toy_cyc_linear": linear,
         "sigmoid_linear": sigmoid_linear,
         "lorenz": lorenz,
         # "lotka": simulate_lotkavolterra,
@@ -887,6 +891,26 @@ class SimulatedVelocityDataModule(SimulatedDataModule):
                 print(A)
                 print((np.abs(A) > 0).sum())
                 self.A = A
+            if system == "toy_dag_linear":
+                A_dag = [
+                    [0, 0.5, 0],
+                    [0, 0, 0],
+                    [0, 0.25, 0]
+                ]
+                A = np.array(A_dag)
+                system_kwargs["A"] = A
+                print(A)
+                print((np.abs(A) > 0).sum())
+            if system == "toy_cyc_linear":
+                A_cyc = [
+                    [0, 0.5, 0],
+                    [0.5, 0, 0.25],
+                    [0, 0.25, 0]
+                ]
+                A = np.array(A_cyc)
+                system_kwargs["A"] = A
+                print(A)
+                print((np.abs(A) > 0).sum())
             start = time.time()
             trajectories = [
                 sim_fn(
@@ -921,7 +945,7 @@ class SimulatedVelocityDataModule(SimulatedDataModule):
             d = {"data": self.data, "velocity": self.velocity, "GC": self.GC}
             if system == "linear" or system == "sigmoid_linear":
                 d.update({"A": A})
-            torch.save(d, data_path)
+            #orch.save(d, data_path)
         # TODO this is what is used in previous work, but its off by one?
         self.split_dataset([self.data, self.velocity, self.GC])
 

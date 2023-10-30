@@ -1,0 +1,56 @@
+# @package _global_
+#
+# to execute this experiment run:
+# python train.py experiment=tcg
+
+defaults:
+  - override /model: per_node_linear_tcg #hyper_tcg
+  - override /datamodule: toy_linear_velocity #linear_velocity
+  - override /logger:
+      - csv
+      - wandb
+  - override /trainer: gpu
+name: "toy_dag_linear_dyn_gfn"
+
+seed: 0
+# for experiments seed=13,29,42,73,91
+
+datamodule:
+  batch_size: 500 #500
+  T: 2
+  p: 3
+  #vars_to_deidentify: [0, 1, 2]
+  system: "toy_dag_linear"
+  seed: 1
+
+# best
+model:
+  env_batch_size: 1024
+  eval_batch_size: 1024
+  full_posterior_eval: False
+  uniform_backwards: True
+  debug_use_shd_energy: False
+  analytic_use_simple_mse_energy: True
+  loss_fn: "detailed_balance"
+  alpha: 0
+  temperature: 0.001
+  temper_period: 5
+  prior_lambda: 500
+  beta: 0.01
+  confidence: 0.0
+  hidden_dim: 128
+  gfn_freq: 1
+  energy_freq: 1
+  pretraining_epochs: 0
+  lr: 1e-3
+  hyper: "mlp"
+  bias: True
+
+trainer:
+  max_epochs: 500
+  min_epochs: 500
+  check_val_every_n_epoch: 100
+
+logger:
+  wandb:
+    tags: ["toy", "per-node", "gfn", "${name}", "v_rebuttal"]
