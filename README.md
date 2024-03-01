@@ -29,16 +29,16 @@ If you find this code useful in your research, please cite the following paper (
 
 <details>
 <summary>
-L. Atanackovic*, A. Tong*, B. Wang, L.J. Lee, Y. Bengio, J. Hartford. DynGFN: Towards Bayesian Inference of Gene Regulatory Networks with GFlowNets.
+L. Atanackovic*, A. Tong*, B. Wang, L.J. Lee, Y. Bengio, J. Hartford. DynGFN: Towards Bayesian Inference of Gene Regulatory Networks with GFlowNets, NeurIPS, 2023.
 </summary>
 
 ```bibtex
-@article{atanackovic2024dyngfn,
+@article{atanackovic2023dyngfn,
   title={DynGFN: Towards Bayesian Inference of Gene Regulatory Networks with GFlowNets},
   author={Atanackovic, Lazar and Tong, Alexander and Wang, Bo and Lee, Leo J and Bengio, Yoshua and Hartford, Jason S},
   journal={Advances in Neural Information Processing Systems},
   volume={36},
-  year={2024}
+  year={2023}
 }
 ```
 </details>
