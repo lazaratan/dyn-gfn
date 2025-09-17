@@ -90,13 +90,9 @@ class HyperStructuralEquationModel(nn.Module):
             Gt = G.transpose(-2, -1).unsqueeze(1)
             x = Gt.to(x) * x
         x = x.unsqueeze(dim=3)  # [n_ens, batch, d, t, d]
-        # print(x.shape)
-        # print(asdas)
-        # print(x.shape)
         x = self.layers[0](x, G)
         for layer in self.layers[1:]:
             # x = layer(F.elu(x), G)  # [n_ens, batch, d, t, mi]
             x = layer(x, G)  # [n_ens, batch, d, t, mi]
-        # print(x.shape, G.shape)
         x = x.transpose(-3, -1).squeeze(-2)
         return x  # x.shape [n_ens, batch, t, d]
